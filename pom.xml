@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<!-- ********************************************** -->
+	<!-- **************** PROJECT INFO **************** -->
+	<!-- ********************************************** -->
+
+	<groupId>ch.braincell</groupId>
+	<artifactId>plantuml.archimate</artifactId>
+	<version>0.5.0-SNAPSHOT</version>
+	<packaging>jar</packaging>
+
+	<name>Plantuml archimate renderer</name>
+	<description>This is a render pipeline for generating Plantuml archimate
+		source.</description>
+	<url>https://github.com/boessu/plantuml-archimate</url>
+	<inceptionYear>2023</inceptionYear>
+
+	<licenses>
+		<license>
+			<name>Apache License V2.0</name>
+			<url>https://www.apache.org/licenses/LICENSE-2.0</url>
+		</license>
+	</licenses>
+
+	<!-- ********************************************** -->
+	<!-- *********** ORGANIZATION AND MEMBERS ********* -->
+	<!-- ********************************************** -->
+
+	<organization>
+		<name>Boessu</name>
+		<url>https://github.com/boessu</url>
+	</organization>
+
+	<developers>
+		<developer>
+			<id>boessu</id>
+			<name>Andreas Studer</name>
+			<url>https://github.com/boessu</url>
+			<roles>
+				<role>Developer</role>
+			</roles>
+			<timezone>+1</timezone>
+			<properties />
+		</developer>
+	</developers>
+
+	<!-- ********************************************** -->
+	<!-- ************ RESOURCES AND SERVICES ********** -->
+	<!-- ********************************************** -->
+
+	<scm>
+		<connection>scm:git:https://github.com/boessu/plantuml-archimate.git</connection>
+		<developerConnection>scm:git:https://github.com/boessu/plantuml-archimate.git</developerConnection>
+		<tag>head</tag>
+		<url>https://www.github.com/boessu/plantuml-archimate</url>
+	</scm>
+
+	<issueManagement>
+		<system>GitHub</system>
+		<url>https://www.github.com/boessu/plantuml-archimate/issues</url>
+	</issueManagement>
+
+	<ciManagement>
+		<system>Github</system>
+		<url>https://www.github.com/boessu/plantuml-archimate/actions</url>
+		<notifiers />
+	</ciManagement>
+
+	<!-- ********************************************** -->
+	<!-- **************** PROPERTIES ****************** -->
+	<!-- ********************************************** -->
+
+	<properties>
+		<!-- ============================================== -->
+		<!-- =============== MANIFEST DATA ================ -->
+		<!-- ============================================== -->
+		<manifest.name>plantuml/archimate</manifest.name>
+		<!-- ============================================== -->
+		<!-- =========== DEPENDENCIES VERSIONS ============ -->
+		<!-- ============================================== -->
+		<junit.jupiter.version>5.9.1</junit.jupiter.version>
+		<!-- ============================================== -->
+		<!-- ============ PLUGIN CONFIGURATION ============ -->
+		<!-- ============================================== -->
+		<!-- Configure release JDK -->
+		<maven.compiler.release>17</maven.compiler.release>
+		<maven.compiler.target>17</maven.compiler.target>
+		<maven.compiler.source>17</maven.compiler.source>
+		<java.version>17</java.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+	<!-- ********************************************** -->
+	<!-- *************** DEPENDENCIES ***************** -->
+	<!-- ********************************************** -->
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<!-- JUnit BOM -->
+				<groupId>org.junit</groupId>
+				<artifactId>junit-bom</artifactId>
+				<version>${junit.jupiter.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<dependencies>
+		<!-- ============================================== -->
+		<!-- ======= TEST ENVIRONMENT DEPENDENCIES ======== -->
+		<!-- ============================================== -->
+		<dependency>
+			<!-- JUnit Jupiter -->
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<!-- JUnit Jupiter Platform -->
+			<groupId>org.junit.platform</groupId>
+			<artifactId>junit-platform-runner</artifactId>
+			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<!-- JUnit 3 -->
+					<groupId>junit</groupId>
+					<artifactId>junit</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+	</dependencies>
+
+	<!-- ********************************************** -->
+	<!-- ******************* BUILD ******************** -->
+	<!-- ********************************************** -->
+
+	<build>
+		<defaultGoal>clean package install</defaultGoal>
+		<plugins>
+			<plugin>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>3.2.0</version>
+				<configuration>
+					<archive>
+						<manifest>
+							<addClasspath>true</addClasspath>
+						</manifest>
+						<manifestEntries>
+							<Automatic-Module-Name>
+								ch.braincell.plantuml.archimate</Automatic-Module-Name>
+						</manifestEntries>
+					</archive>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>3.0.1</version>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar-no-fork</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>3.0.0</version>
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>

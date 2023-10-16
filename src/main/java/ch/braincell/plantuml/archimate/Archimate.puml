@@ -1,0 +1,102 @@
+' Archimate-PlantUML
+' Version 0.1
+' Url will come here...
+
+' Styling
+' ##################################
+!define TECHN_FONT_SIZE 12
+!define ELEMENT_FONT_COLOR #FFFFFF
+
+skinparam defaultTextAlignment left
+skinparam wrapWidth 400
+skinparam maxMessageSize 150
+skinparam StereotypeAlignment center
+skinparam NoteTextAlignment center
+skinparam SequenceMessageAlignment center
+skinparam SequenceMessageTextAlignment center
+skinparam ArrowMessageAlignment center
+
+skinparam Arrow {
+    Color #000000
+    FontColor #000000
+    FontSize 12
+}
+skinparam Folder<<grouping>> {
+    Shadowing true
+    StereotypeFontSize 0
+    FontColor #444444
+    BorderColor #444444
+    BorderStyle dashed
+}
+skinparam Folder<<group>> {
+    Shadowing true
+    StereotypeFontSize 0
+    FontColor #444444
+    BackgroundColor lightgrey
+}
+skinparam rectangle<<boundary>> {
+    Shadowing false
+    StereotypeFontSize 0
+    FontColor #444444
+    BorderColor #444444
+    BorderStyle dashed
+}
+skinparam node {
+  StereotypeAlignment right
+}
+skinparam cloud {
+  StereotypeAlignment right
+}
+skinparam frame {
+  StereotypeAlignment right
+}
+skinparam archimate {
+  StereotypeAlignment right
+  RoundCorner<<strategy-capability>> 25
+  RoundCorner<<strategy-course-of-action>> 25
+  RoundCorner<<business-process>> 25
+  RoundCorner<<business-function>> 25
+  RoundCorner<<business-interaction>> 25
+  RoundCorner<<business-event>> 25
+  RoundCorner<<business-service>> 25
+  RoundCorner<<application-function>> 25
+  RoundCorner<<application-interaction>> 25
+  RoundCorner<<application-process>> 25
+  RoundCorner<<application-event>> 25
+  RoundCorner<<application-service>> 25
+  RoundCorner<<technology-function>> 25
+  RoundCorner<<technology-process>> 25
+  RoundCorner<<technology-interaction>> 25
+  RoundCorner<<technology-event>> 25
+  RoundCorner<<technology-infra-service>> 25
+  RoundCorner<<implementation-workpackage>> 25
+  RoundCorner<<implementation-event>> 25
+  DiagonalCorner<<motivation-stakeholder>> 12
+  DiagonalCorner<<motivation-driver>> 12
+  DiagonalCorner<<motivation-assessment>> 12
+  DiagonalCorner<<motivation-goal>> 12
+  DiagonalCorner<<motivation-outcome>> 12
+  DiagonalCorner<<motivation-principle>> 12
+  DiagonalCorner<<motivation-requirement>> 12
+  DiagonalCorner<<motivation-constraint>> 12
+}
+
+skinparam usecase {
+  BorderColor #000000
+}
+
+skinparam note {
+	BorderColor #CCCCCC
+	BackgroundColor #EEEEEE
+}
+
+skinparam maxLegendSize 100
+skinparam legend {
+	BorderColor #CCCCCC
+	BackgroundColor #EEEEEE
+}
+
+hide stereotype
+
+'!pragma layout smetana
+'!pragma layout elk

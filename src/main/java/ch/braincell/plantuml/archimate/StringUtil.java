@@ -79,7 +79,7 @@ public class StringUtil {
 						toAdd.clear();
 						formats.removeAll(toRemove);
 						toRemove.clear();
-					} else {
+					} else if (!result.isEmpty()) { //only finish if the last line is not empty
 						result.setLength(result.length() - 1);
 						for (int i = formats.size(); i > 0; i--)
 							result.append(formats.get(i - 1));

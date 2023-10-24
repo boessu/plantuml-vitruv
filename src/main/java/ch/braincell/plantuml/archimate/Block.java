@@ -39,15 +39,17 @@ public abstract class Block implements Comparable<Block> {
 	/**
 	 * name is the ID of a block and so must be unique in the subclass.
 	 * 
-	 * @param name
+	 * @param name           name of the block
 	 * @param userID         ID provided from outside to identify the block in the
 	 *                       resulting plant source as element. It will be inserted
 	 *                       at the end separated by
 	 *                       {@link Block#USER_ID_SEPARATOR}. Only 35 alphanumeric
 	 *                       chars without white spaces supported. It will be
 	 *                       ignored, if it doesn't fulfill this rule. Can be null.
-	 * @param url
-	 * @param documentations
+	 * @param url            URL for the block. Will be used in SVG to get a link.
+	 *                       Can be null if unused.
+	 * @param documentations Documentations for the block. Will be used for
+	 *                       commenting the block.
 	 */
 	protected Block(String name, String userID, URL url, Paragraph... documentations) {
 		super();

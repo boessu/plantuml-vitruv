@@ -48,7 +48,7 @@ public class StringUtil {
 		for (String line : splitter) {
 			if (nextLine)
 				result.append(newLine);
-			if (line.length() < wrapLength || line.matches(SKIPPING_LISTS)) {
+			if (line.length() <= wrapLength || line.matches(SKIPPING_LISTS)) {
 				result.append(line);
 			} else {
 				int lineLength = 0;

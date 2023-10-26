@@ -71,6 +71,7 @@ public class StringUtil {
 				boolean openLink = false;
 				while (toktok.hasMoreTokens()) {
 					String token = toktok.nextToken();
+
 					if (token.startsWith(LINK_OPEN)) {
 						openLink = true;
 					}
@@ -101,14 +102,14 @@ public class StringUtil {
 							}
 						}
 
-						if ((lineLength + token.length() - creoleLength) < wrapLength) {
+						if ((lineLength + token.length() - creoleLength) <= wrapLength) {
 							result.append(token).append(' ');
 							lineLength += token.length() + 1;
 							formats.addAll(toAdd);
 							toAdd.clear();
 							formats.removeAll(toRemove);
 							toRemove.clear();
-						} else if (!result.isEmpty()) { // only finish if the line is not empty
+						} else {
 							trimEnd(result);
 							for (int i = formats.size(); i > 0; i--)
 								result.append(formats.get(i - 1));
@@ -139,8 +140,8 @@ public class StringUtil {
 	 * @param bufferToTrim
 	 */
 	private static void trimEnd(StringBuffer bufferToTrim) {
-		while (bufferToTrim.charAt(bufferToTrim.length() - 1) == ' ')
-			bufferToTrim.setLength(bufferToTrim.length() - 1);
+			while (bufferToTrim.length() > 0 && bufferToTrim.charAt(bufferToTrim.length() - 1) == ' ')
+				bufferToTrim.setLength(bufferToTrim.length() - 1);
 	}
 
 	/**

@@ -17,8 +17,10 @@ public record Paragraph(String title, String documentation, boolean wrap, Refere
 	private static final int WRAP_DOCUMENTATION = 80;
 
 	public Paragraph {
-		// this is usually build as a block text. If this includes single quotes, the
-		// text will be missing. So we'll replace single quotes here.
+		// this is usually build as a block text. If this includes single quotes at the
+		// beginning of the line, the text will be missing as it is interpreted as
+		// "comment" in PlantUML. So we'll replace single quotes here with double
+		// quotes.
 		documentation = StringUtil.replaceSingleQuotes(documentation);
 	}
 

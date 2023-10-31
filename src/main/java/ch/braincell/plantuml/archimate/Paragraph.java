@@ -13,7 +13,14 @@ import java.util.Collection;
  *                      at the end.
  */
 public record Paragraph(String title, String documentation, boolean wrap, Reference... references) {
+
 	private static final int WRAP_DOCUMENTATION = 80;
+
+	public Paragraph {
+		// this is usually build as a block text. If this includes single quotes, the
+		// text will be missing. So we'll replace single quotes here.
+		documentation = StringUtil.replaceSingleQuotes(documentation);
+	}
 
 	/**
 	 * Creates a paragraph for documentations. It is possible to use Creole in the

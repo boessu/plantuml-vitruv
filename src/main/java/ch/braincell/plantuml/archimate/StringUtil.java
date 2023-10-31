@@ -9,14 +9,48 @@ import java.util.regex.Pattern;
 
 public class StringUtil {
 
-	private final static Pattern SKIPPING_LISTS = Pattern.compile("^\\s*[*#=]+[\\s].*"); // for skipping lists (can't be
-																							// wrapped) Lists
-	// need at least a space to be before text to be
-	// recognized.
+	// for skipping lists (can't be wrapped)
+	private final static Pattern SKIPPING_LISTS = Pattern.compile("^\\s*[*#=]+[\\s].*");
+	// need at least a space to be before text to be recognized.
 	private final static String[] TOKEN = { "**", "//", "\"\"", "--", "__", "~~" };
 
 	private final static String LINK_OPEN = "[[";
 	private final static String LINK_CLOSE = "]]";
+
+	/**
+	 * Reolaces single quotes with double quotes. This is needed in PlantUML
+	 * legends, block comments etc. There is the risk that plantUML will misinterpet
+	 * it as a comment if it is on the beginning of a line.
+	 * 
+	 * @param input String in whose content all single quotes should be replaced.
+	 * @return new string with all single quotes replaced.
+	 */
+	public static String replaceSingleQuotes(String input) {
+		if (input == null)
+			return null;
+		// I don't think that's one of the things I win a flower pot with. But it is by
+		// far the fastest implementation I've found.
+		char[] inputChars = input.toCharArray();
+		for (int i = 0; i < inputChars.length; i++) {
+			if (inputChars[i] == '\'') {
+				if ( // single quote at begin or end of string.
+				i == 0 || i == inputChars.length - 1 ||
+				// single quote after whitespace (definition \s in regular expression)
+						inputChars[i - 1] == ' ' || inputChars[i - 1] == '\t' || inputChars[i - 1] == '\n'
+						|| inputChars[i - 1] == '\f' || inputChars[i - 1] == '\r' || inputChars[i - 1] == 0x0B ||
+						// single quote before whitespace (definition \s in regular expression and
+						// character .,;:?!)
+						inputChars[i + 1] == ' ' || inputChars[i + 1] == '\t' || inputChars[i + 1] == '\n'
+						|| inputChars[i + 1] == '\f' || inputChars[i + 1] == '\r' || inputChars[i + 1] == 0x0B
+						|| inputChars[i + 1] == '.' || inputChars[i + 1] == ',' || inputChars[i + 1] == ';'
+						|| inputChars[i + 1] == ':' || inputChars[i + 1] == '?' || inputChars[i + 1] == '!') {
+					inputChars[i] = '"'; // replace it with double quote.
+				}
+			}
+		}
+
+		return new String(inputChars);
+	}
 
 	/**
 	 * Wraps a String with specific length and some sort of creole sensitivity from
@@ -53,13 +87,22 @@ public class StringUtil {
 
 		String[] splitter = input.split("\\r\\n|\\n\\r|\\r|\\n");
 
-		boolean nextLine = false;
+		boolean followingLine = true;
 		for (String line : splitter) {
-			if (nextLine || line.isEmpty()) {
+
+			if (followingLine || line.isEmpty()) {
+				// for all lines following the first line (or empty lines), trim the end and add
+				// a newLine.
 				trimEnd(result);
 				result.append(newLine);
+			} else {
+				// if we're on the first line, do nothing.
+				followingLine = true;
 			}
+
 			if (line.length() <= wrapLength || SKIPPING_LISTS.matcher(line).matches()) {
+				// if the line is either smaller as the wrapLength anyway or if we shouldn't
+				// wrap, append and continue with the next line
 				result.append(line);
 			} else {
 				int lineLength = 0;
@@ -69,24 +112,26 @@ public class StringUtil {
 				List<String> toRemove = new ArrayList<>(TOKEN.length);
 				List<String> toAdd = new ArrayList<>(TOKEN.length);
 				boolean openLink = false;
+
 				while (toktok.hasMoreTokens()) {
 					String token = toktok.nextToken();
 
 					if (token.startsWith(LINK_OPEN)) {
+						// if a token starts with a link, don't wrap it.
 						openLink = true;
 					}
 
 					if (openLink) {
 						result.append(token);
 						lineLength += token.length();
-						if (token.endsWith(LINK_CLOSE))
+						if (token.endsWith(LINK_CLOSE)) {
 							openLink = false;
-						else {
+						} else {
 							result.append(' ');
 							lineLength++;
 						}
 					} else {
-						// testing creole token
+						// parsing creole tokens within the token in the line.
 						for (String creoleToken : TOKEN) {
 							int creoleCount = countFindings(token, creoleToken);
 							if (creoleCount > 0) {
@@ -102,11 +147,17 @@ public class StringUtil {
 							}
 						}
 
+						// word-wrap if the wrapLength is reached. ignore the tokens in the calculation
+						// of the actual length.
 						if ((lineLength + token.length() - creoleLength) <= wrapLength) {
+							// normal behaviour: Add the token and add a space as separator.
 							result.append(token).append(' ');
 							lineLength += token.length() + 1;
+
+							// add all creole which where opened by this token.
 							formats.addAll(toAdd);
 							toAdd.clear();
+							// remove all creole which where closed by this token.
 							formats.removeAll(toRemove);
 							toRemove.clear();
 						} else {
@@ -128,7 +179,6 @@ public class StringUtil {
 					}
 				}
 			}
-			nextLine = true;
 		}
 		trimEnd(result);
 		return result.toString();
@@ -140,8 +190,8 @@ public class StringUtil {
 	 * @param bufferToTrim
 	 */
 	private static void trimEnd(StringBuffer bufferToTrim) {
-			while (bufferToTrim.length() > 0 && bufferToTrim.charAt(bufferToTrim.length() - 1) == ' ')
-				bufferToTrim.setLength(bufferToTrim.length() - 1);
+		while (bufferToTrim.length() > 0 && bufferToTrim.charAt(bufferToTrim.length() - 1) == ' ')
+			bufferToTrim.setLength(bufferToTrim.length() - 1);
 	}
 
 	/**

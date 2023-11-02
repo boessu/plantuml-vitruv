@@ -38,8 +38,8 @@ public class StringUtil {
 				// single quote after whitespace (definition \s in regular expression)
 						inputChars[i - 1] == ' ' || inputChars[i - 1] == '\t' || inputChars[i - 1] == '\n'
 						|| inputChars[i - 1] == '\f' || inputChars[i - 1] == '\r' || inputChars[i - 1] == 0x0B ||
-						// single quote before whitespace (definition \s in regular expression and
-						// character .,;:?!)
+						// single quote before whitespace: Definition \s in regular expression and
+						// character .,;:?! TODO: ()[]{}
 						inputChars[i + 1] == ' ' || inputChars[i + 1] == '\t' || inputChars[i + 1] == '\n'
 						|| inputChars[i + 1] == '\f' || inputChars[i + 1] == '\r' || inputChars[i + 1] == 0x0B
 						|| inputChars[i + 1] == '.' || inputChars[i + 1] == ',' || inputChars[i + 1] == ';'

@@ -37,13 +37,15 @@ public class StringUtil {
 				i == 0 || i == inputChars.length - 1 ||
 				// single quote after whitespace (definition \s in regular expression)
 						inputChars[i - 1] == ' ' || inputChars[i - 1] == '\t' || inputChars[i - 1] == '\n'
-						|| inputChars[i - 1] == '\f' || inputChars[i - 1] == '\r' || inputChars[i - 1] == 0x0B ||
+						|| inputChars[i - 1] == '\f' || inputChars[i - 1] == '\r' || inputChars[i - 1] == 0x0B
+						|| inputChars[i + 1] == '(' || inputChars[i + 1] == '[' || inputChars[i + 1] == '{' ||
 						// single quote before whitespace: Definition \s in regular expression and
-						// character .,;:?! TODO: ()[]{}
+						// character .,;:?!
 						inputChars[i + 1] == ' ' || inputChars[i + 1] == '\t' || inputChars[i + 1] == '\n'
 						|| inputChars[i + 1] == '\f' || inputChars[i + 1] == '\r' || inputChars[i + 1] == 0x0B
 						|| inputChars[i + 1] == '.' || inputChars[i + 1] == ',' || inputChars[i + 1] == ';'
-						|| inputChars[i + 1] == ':' || inputChars[i + 1] == '?' || inputChars[i + 1] == '!') {
+						|| inputChars[i + 1] == ':' || inputChars[i + 1] == '?' || inputChars[i + 1] == '!'
+						|| inputChars[i + 1] == ')' || inputChars[i + 1] == ']' || inputChars[i + 1] == '}') {
 					inputChars[i] = '"'; // replace it with double quote.
 				}
 			}

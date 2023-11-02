@@ -87,7 +87,7 @@ public class StringUtil {
 
 		String[] splitter = input.split("\\r\\n|\\n\\r|\\r|\\n");
 
-		boolean followingLine = true;
+		boolean followingLine = false;
 		for (String line : splitter) {
 
 			if (followingLine || line.isEmpty()) {

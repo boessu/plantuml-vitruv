@@ -1,4 +1,4 @@
-package ch.braincell.plantuml.archimate;
+package ch.braincell.plantuml.vitruv;
 
 public record Connection(Block sender, Block receiver, ConnectionStyle style, String label, String description,
 		Reference[] references) {
@@ -10,7 +10,7 @@ public record Connection(Block sender, Block receiver, ConnectionStyle style, St
 		this.sender = sender;
 		this.receiver = receiver;
 		this.style = style;
-		this.label = label.replace("\n", "\\n");
+		this.label = label != null ? label.replace("\n", "\\n") : null;
 		this.description = description;
 		this.references = references;
 	}

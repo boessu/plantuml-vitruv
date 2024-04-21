@@ -1,8 +1,8 @@
-package ch.braincell.plantuml.archimate;
+package ch.braincell.plantuml.vitruv;
 
-import ch.braincell.plantuml.archimate.style.Color;
+import ch.braincell.plantuml.vitruv.style.Color;
 
-public enum ConnectionType {
+public enum ArchimateConnectionType implements ConnectionType {
 	ACCESS("~?~"),
 	ACCESS_READ("<-?~"), 
 	ACCESS_READWRITE("<-?~>"), 
@@ -22,7 +22,7 @@ public enum ConnectionType {
 	private final String beginPlant;
 	private final String endPlant;
 	
-	private ConnectionType(String plant) {
+	private ArchimateConnectionType(String plant) {
 		int split = plant.indexOf('?');
 		this.beginPlant = " " + plant.substring(0, split);
 		this.endPlant = plant.substring(split + 1) + " ";
@@ -32,7 +32,7 @@ public enum ConnectionType {
 		if (name == null)
 			return SERVING;
 		ConnectionType result = SERVING;
-		for (ConnectionType value : ConnectionType.values()) {
+		for (ArchimateConnectionType value : ArchimateConnectionType.values()) {
 			if (name.toUpperCase().equals(value.name())) {
 				result = value;
 			}
@@ -47,6 +47,7 @@ public enum ConnectionType {
 	 * @param bold
 	 * @return
 	 */
+	@Override
 	public String getPlant(Color color, boolean bold) {
 		final Color resultColor = color == null ? Color.BLACK : color;
 		String result = "";

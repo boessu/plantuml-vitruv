@@ -1,4 +1,4 @@
-package ch.braincell.plantuml.archimate;
+package ch.braincell.plantuml.vitruv;
 
 import java.net.URL;
 

@@ -1,4 +1,4 @@
-package ch.braincell.plantuml.archimate.style;
+package ch.braincell.plantuml.vitruv.style;
 
 public record Color(int rgb) {
 	public final static Color BLACK = new Color(0x000000);

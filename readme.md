@@ -1,4 +1,4 @@
-# PlantUML Archimate render pipeline
+# PlantUML Vitruv render pipeline
 A small library which generates PlantUML source. Can be used e.g. for reports.
 
 ## Features
@@ -50,6 +50,6 @@ If you wish to fork or modify the code, visit the [GitHub project page][scm], wh
 
 The project has been released under the [Apache License V2.0][license].
 
-[issues]: https://github.com/boessu/PlantUMLarchimate/issues
+[issues]: https://github.com/boessu/plantuml-virtuv/issues
 [license]: https://opensource.org/license/apache-2-0/
-[scm]: https://github.com/boessu/archimate
+[scm]: https://github.com/boessu/plantuml-virtuv

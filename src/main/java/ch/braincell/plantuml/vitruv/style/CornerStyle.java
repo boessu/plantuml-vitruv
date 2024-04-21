@@ -1,4 +1,4 @@
-package ch.braincell.plantuml.archimate.style;
+package ch.braincell.plantuml.vitruv.style;
 
 public record CornerStyle(Style style, int size) implements Style {
 	

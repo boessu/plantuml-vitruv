@@ -1,13 +1,13 @@
-package ch.braincell.plantuml.archimate;
+package ch.braincell.plantuml.vitruv;
 
 import java.net.URL;
 import java.text.MessageFormat;
 
-public enum LeafType {
+public enum ArchimateLeafType implements LeafType {
 
 	ACCESS("access"), //
 	ACTIVITY("activity"), //
-	ACTOR("actor", "#LightYellow", LeafType.P_ACTOR), //
+	ACTOR("actor", "#LightYellow", ArchimateLeafType.P_ACTOR), //
 	AGGREGATION("aggregation"), //
 	APPLICATION_COLLABORATION("application-collaboration", "#APPLICATION"), //
 	APPLICATION_COMPONENT("application-component", "#APPLICATION"), //
@@ -24,7 +24,7 @@ public enum LeafType {
 	ASSOCIATION_UNIDIRECT("association-unidirect"), //
 	ASSOCIATION("association"), //
 	BUSINESS_ACTIVITY("business-activity", "#BUSINESS"), //
-	BUSINESS_ACTOR("business-actor", "#BUSINESS", LeafType.P_ACTOR), //
+	BUSINESS_ACTOR("business-actor", "#BUSINESS", ArchimateLeafType.P_ACTOR), //
 	BUSINESS_COLLABORATION("business-collaboration", "#BUSINESS"), //
 	BUSINESS_CONTRACT("business-contract", "#BUSINESS"), //
 	BUSINESS_EVENT("business-event", "#BUSINESS"), //
@@ -37,7 +37,7 @@ public enum LeafType {
 	BUSINESS_PROCESS("business-process", "#BUSINESS"), //
 	BUSINESS_PRODUCT("business-product", "#BUSINESS"), //
 	BUSINESS_REPRESENTATION("business-representation", "#BUSINESS"), //
-	BUSINESS_ROLE("business-role", "#BUSINESS", LeafType.P_ACTOR), //
+	BUSINESS_ROLE("business-role", "#BUSINESS", ArchimateLeafType.P_ACTOR), //
 	BUSINESS_SERVICE("business-service", "#BUSINESS"), //
 	BUSINESS_VALUE("business-value", "#BUSINESS"), //
 	COLLABORATION("collaboration"), //
@@ -141,11 +141,11 @@ public enum LeafType {
 	private final static String P_ACTOR = "actor \"{0}\" as {1}\n";
 	private final static int P_WRAP_NAME = 25;
 
-	private LeafType(String stereotype) {
+	private ArchimateLeafType(String stereotype) {
 		this(stereotype, "#White");
 	}
 	
-	private LeafType(String stereotype, String color) {
+	private ArchimateLeafType(String stereotype, String color) {
 		this(stereotype, color, P_RECTANGLE);
 	}
 
@@ -159,7 +159,7 @@ public enum LeafType {
 	 *                   {2}: color and line style<br>
 	 *                   {3}: archimate stereotype
 	 */
-	private LeafType(String stereotype, String color, String plant) {
+	private ArchimateLeafType(String stereotype, String color, String plant) {
 		this.stereotype = stereotype;
 		this.color = color;
 		this.plant = plant;
@@ -169,7 +169,7 @@ public enum LeafType {
 		if (name == null)
 			return MEANING;
 		LeafType result = MEANING;
-		for (LeafType value : LeafType.values()) {
+		for (ArchimateLeafType value : ArchimateLeafType.values()) {
 			if (name.toLowerCase().equals(value.stereotype)) {
 				result = value;
 			}
@@ -178,7 +178,8 @@ public enum LeafType {
 		return result;
 	}
 
-	String getPlant(String name, String ID, URL url, String color, boolean bold) {
+	@Override
+	public String getPlant(String name, String ID, URL url, String color, boolean bold) {
 		String fatText = "";
 		String fatLine = "";
 		if (bold) {
@@ -194,11 +195,13 @@ public enum LeafType {
 		return result;
 	}
 
+	@Override
 	public String getStereotype() {
 		return stereotype;
 	}
 	
-	String getColor() {
+	@Override
+	public String getColor() {
 		return color;
 	}
 }

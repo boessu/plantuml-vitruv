@@ -1,4 +1,4 @@
-package ch.braincell.plantuml.archimate.style;
+package ch.braincell.plantuml.vitruv.style;
 
 public record FontStyle(Style style, Color color) implements Style {
 	

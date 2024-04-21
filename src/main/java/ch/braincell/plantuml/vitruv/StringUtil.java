@@ -1,4 +1,4 @@
-package ch.braincell.plantuml.archimate;
+package ch.braincell.plantuml.vitruv;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,14 +11,13 @@ public class StringUtil {
 
 	// for skipping lists (can't be wrapped)
 	private final static Pattern SKIPPING_LISTS = Pattern.compile("^\\s*[*#=]+[\\s].*");
-	// need at least a space to be before text to be recognized.
-	private final static String[] TOKEN = { "**", "//", "\"\"", "--", "__", "~~" };
 
+	// detect URL's (should not be wrapped)
 	private final static String LINK_OPEN = "[[";
 	private final static String LINK_CLOSE = "]]";
 
 	/**
-	 * Reolaces single quotes with double quotes. This is needed in PlantUML
+	 * Replaces single quotes with double quotes. This is needed in PlantUML
 	 * legends, block comments etc. There is the risk that plantUML will misinterpet
 	 * it as a comment if it is on the beginning of a line.
 	 * 
@@ -33,25 +32,42 @@ public class StringUtil {
 		char[] inputChars = input.toCharArray();
 		for (int i = 0; i < inputChars.length; i++) {
 			if (inputChars[i] == '\'') {
-				if ( // single quote at begin or end of string.
+				if ( // is the single quote at begin or end of a string
 				i == 0 || i == inputChars.length - 1 ||
-				// single quote after whitespace (definition \s in regular expression)
-						inputChars[i - 1] == ' ' || inputChars[i - 1] == '\t' || inputChars[i - 1] == '\n'
-						|| inputChars[i - 1] == '\f' || inputChars[i - 1] == '\r' || inputChars[i - 1] == 0x0B
-						|| inputChars[i + 1] == '(' || inputChars[i + 1] == '[' || inputChars[i + 1] == '{' ||
-						// single quote before whitespace: Definition \s in regular expression and
-						// character .,;:?!
-						inputChars[i + 1] == ' ' || inputChars[i + 1] == '\t' || inputChars[i + 1] == '\n'
-						|| inputChars[i + 1] == '\f' || inputChars[i + 1] == '\r' || inputChars[i + 1] == 0x0B
-						|| inputChars[i + 1] == '.' || inputChars[i + 1] == ',' || inputChars[i + 1] == ';'
-						|| inputChars[i + 1] == ':' || inputChars[i + 1] == '?' || inputChars[i + 1] == '!'
-						|| inputChars[i + 1] == ')' || inputChars[i + 1] == ']' || inputChars[i + 1] == '}') {
+				// or is the single quote after or before a whitespace
+						isWhitespace(inputChars[i - 1]) || isWhitespace(inputChars[i + 1])
+						// or does a symbol character follow for the single quote
+						|| isSymbol(inputChars[i + 1])) {
 					inputChars[i] = '"'; // replace it with double quote.
 				}
 			}
 		}
 
 		return new String(inputChars);
+	}
+
+	/**
+	 * Checks the single character for whitespace (the same definition like \s in
+	 * regular expression)
+	 * 
+	 * @param c the single character to check
+	 * @return true if it is a whitespace, false otherwise.
+	 */
+	private static boolean isWhitespace(char c) {
+		return c == ' ' || c == '\t' || c == '\n' || c == '\f' || c == '\r' || c == 0x0B;
+	}
+
+	/**
+	 * Checks if the character is a open or closing brace, or if it is a punctuation
+	 * (.,;:?!)
+	 * 
+	 * @param c the single character to check
+	 * @return true if it is a symbol character, false otherwise.
+	 */
+	private static boolean isSymbol(char c) {
+		return c == '(' || c == '[' || c == '{' || // open braces
+				c == '}' || c == ']' || c == ')' || // close braces
+				c == '.' || c == ',' || c == ';' || c == ':' || c == '?' || c == '!';
 	}
 
 	/**
@@ -83,23 +99,26 @@ public class StringUtil {
 		if (input == null || input.isEmpty())
 			return null;
 
-		StringBuffer result = new StringBuffer(input.length() + 32);
+		StringBuilder result = new StringBuilder(input.length() + 32);
 
 		wrapLength = getMaxWordLength(input, wrapLength, 50);
 
 		String[] splitter = input.split("\\r\\n|\\n\\r|\\r|\\n");
 
-		boolean followingLine = false;
+		boolean isFirstLine = true;
+		StringTokenizer tokenizer = null;
+		CreoleHelper creoleHelper = new CreoleHelper();
+
 		for (String line : splitter) {
 
-			if (followingLine || line.isEmpty()) {
+			if (!isFirstLine || line.isEmpty()) {
 				// for all lines following the first line (or empty lines), trim the end and add
 				// a newLine.
 				trimEnd(result);
 				result.append(newLine);
 			} else {
 				// if we're on the first line, do nothing.
-				followingLine = true;
+				isFirstLine = false;
 			}
 
 			if (line.length() <= wrapLength || SKIPPING_LISTS.matcher(line).matches()) {
@@ -108,15 +127,13 @@ public class StringUtil {
 				result.append(line);
 			} else {
 				int lineLength = 0;
-				int creoleLength = 0;
-				StringTokenizer toktok = new StringTokenizer(line, " \t\f", false);
-				List<String> formats = new ArrayList<>(TOKEN.length);
-				List<String> toRemove = new ArrayList<>(TOKEN.length);
-				List<String> toAdd = new ArrayList<>(TOKEN.length);
+				tokenizer = new StringTokenizer(line, " \t\f", false);
+				creoleHelper.clearFormat();
 				boolean openLink = false;
 
-				while (toktok.hasMoreTokens()) {
-					String token = toktok.nextToken();
+				while (tokenizer.hasMoreTokens()) {
+					final String token = tokenizer.nextToken();
+					final int tokenLength = token.length();
 
 					if (token.startsWith(LINK_OPEN)) {
 						// if a token starts with a link, don't wrap it.
@@ -125,7 +142,7 @@ public class StringUtil {
 
 					if (openLink) {
 						result.append(token);
-						lineLength += token.length();
+						lineLength += tokenLength;
 						if (token.endsWith(LINK_CLOSE)) {
 							openLink = false;
 						} else {
@@ -134,49 +151,20 @@ public class StringUtil {
 						}
 					} else {
 						// parsing creole tokens within the token in the line.
-						for (String creoleToken : TOKEN) {
-							int creoleCount = countFindings(token, creoleToken);
-							if (creoleCount > 0) {
-								creoleLength += creoleCount * creoleToken.length();
-								if (creoleCount % 2 != 0) {
-									// creole token is open
-									if (formats.contains(creoleToken)) {
-										toRemove.add(creoleToken);
-									} else {
-										toAdd.add(creoleToken);
-									}
-								}
-							}
-						}
+						creoleHelper.parseCreole(token);
 
 						// word-wrap if the wrapLength is reached. ignore the tokens in the calculation
 						// of the actual length.
-						if ((lineLength + token.length() - creoleLength) <= wrapLength) {
+						if ((lineLength + tokenLength - creoleHelper.getCreoleLength()) <= wrapLength) {
 							// normal behaviour: Add the token and add a space as separator.
 							result.append(token).append(' ');
-							lineLength += token.length() + 1;
+							lineLength += tokenLength + 1;
 
-							// add all creole which where opened by this token.
-							formats.addAll(toAdd);
-							toAdd.clear();
-							// remove all creole which where closed by this token.
-							formats.removeAll(toRemove);
-							toRemove.clear();
+							creoleHelper.consolidateFormat();
 						} else {
 							trimEnd(result);
-							for (int i = formats.size(); i > 0; i--)
-								result.append(formats.get(i - 1));
-							result.append(newLine);
-							formats.forEach(f -> result.append(f));
-							formats.addAll(toAdd);
-							toAdd.clear();
-							formats.removeAll(toRemove);
-							toRemove.clear();
-							result.append(token).append(" ");
-							creoleLength = 0;
-							for (String format : formats)
-								creoleLength += format.length();
-							lineLength = token.length() + creoleLength + 1;
+							creoleHelper.switchLine(result, token, newLine);
+							lineLength = tokenLength + creoleHelper.getCreoleLength() + 1;
 						}
 					}
 				}
@@ -191,7 +179,7 @@ public class StringUtil {
 	 * 
 	 * @param bufferToTrim
 	 */
-	private static void trimEnd(StringBuffer bufferToTrim) {
+	private static void trimEnd(StringBuilder bufferToTrim) {
 		while (bufferToTrim.length() > 0 && bufferToTrim.charAt(bufferToTrim.length() - 1) == ' ')
 			bufferToTrim.setLength(bufferToTrim.length() - 1);
 	}
@@ -237,5 +225,104 @@ public class StringUtil {
 		}
 
 		return count;
+	}
+
+	/**
+	 * The {@code CreoleHelper} class is used for managing Creole markup tokens
+	 * within a string. It provides methods to parse Creole tokens, switch lines
+	 * while maintaining formatting, and consolidate formatting changes.
+	 */
+	static class CreoleHelper {
+
+		/**
+		 * An array of Creole markup tokens.
+		 */
+		private final static String[] CREOLETOKEN = { "**", "//", "\"\"", "--", "__", "~~" };
+		/**
+		 * A list of current format tokens.
+		 */
+		private List<String> formats = new ArrayList<>(CREOLETOKEN.length);
+		/**
+		 * A list of format tokens to be removed.
+		 */
+		private List<String> toRemove = new ArrayList<>(CREOLETOKEN.length);
+		/**
+		 * A list of format tokens to be added.
+		 */
+		private List<String> toAdd = new ArrayList<>(CREOLETOKEN.length);
+		/**
+		 * The total length of the Creole markup within the string.
+		 */
+		private int creoleLength = 0;
+
+		/**
+		 * Clears the formatting information.
+		 */
+		public void clearFormat() {
+			creoleLength = 0;
+			formats.clear();
+			toRemove.clear();
+			toAdd.clear();
+		}
+
+		/**
+		 * Parses the given token to find and process Creole markup.
+		 *
+		 * @param token The string token to parse.
+		 */
+		public void parseCreole(String token) {
+			for (String creoleToken : CREOLETOKEN) {
+				int creoleCount = countFindings(token, creoleToken);
+				if (creoleCount > 0) {
+					creoleLength += creoleCount * creoleToken.length();
+					if (creoleCount % 2 != 0) {
+						// creole token is open
+						if (formats.contains(creoleToken)) {
+							toRemove.add(creoleToken);
+						} else {
+							toAdd.add(creoleToken);
+						}
+					}
+				}
+			}
+		}
+
+		/**
+		 * Switches the line and updates the formatting based on the current state.
+		 *
+		 * @param result  The {@code StringBuilder} to append the result to.
+		 * @param token   The string token to append after switching the line.
+		 * @param newLine The new line character or sequence to insert.
+		 */
+		public void switchLine(StringBuilder result, final String token, final String newLine) {
+			for (int i = formats.size(); i > 0; i--)
+				result.append(formats.get(i - 1));
+			result.append(newLine);
+			formats.forEach(f -> result.append(f));
+			consolidateFormat();
+			result.append(token).append(" ");
+			creoleLength = 0;
+			for (String format : formats)
+				creoleLength += format.length();
+		}
+
+		/**
+		 * Consolidates the formatting changes by adding or removing format tokens.
+		 */
+		public void consolidateFormat() {
+			formats.addAll(toAdd);
+			toAdd.clear();
+			formats.removeAll(toRemove);
+			toRemove.clear();
+		}
+
+		/**
+		 * Gets the total length of the Creole markup.
+		 *
+		 * @return The length of the Creole markup.
+		 */
+		public int getCreoleLength() {
+			return creoleLength;
+		}
 	}
 }

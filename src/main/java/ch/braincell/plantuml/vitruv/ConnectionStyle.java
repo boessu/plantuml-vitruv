@@ -1,6 +1,6 @@
-package ch.braincell.plantuml.archimate;
+package ch.braincell.plantuml.vitruv;
 
-import ch.braincell.plantuml.archimate.style.Color;
+import ch.braincell.plantuml.vitruv.style.Color;
 
 public record ConnectionStyle(ConnectionType type, Color color, boolean bold) {
 

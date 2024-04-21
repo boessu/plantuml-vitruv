@@ -1,10 +1,10 @@
-package ch.braincell.plantuml.archimate;
+package ch.braincell.plantuml.vitruv;
 
 import java.net.URL;
 import java.util.Set;
 import java.util.TreeSet;
 
-import ch.braincell.plantuml.archimate.style.GroupStyle;
+import ch.braincell.plantuml.vitruv.style.GroupStyle;
 
 public class Group extends Block {
 

@@ -1,4 +1,4 @@
-package ch.braincell.plantuml.archimate.style;
+package ch.braincell.plantuml.vitruv.style;
 
 public record LineStyle(Style style, Color color, int thickness) implements Style {
 	

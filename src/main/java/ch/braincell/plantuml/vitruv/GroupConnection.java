@@ -1,4 +1,4 @@
-package ch.braincell.plantuml.archimate;
+package ch.braincell.plantuml.vitruv;
 
 import java.util.Set;
 import java.util.TreeSet;

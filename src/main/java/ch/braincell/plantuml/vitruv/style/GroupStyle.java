@@ -1,4 +1,4 @@
-package ch.braincell.plantuml.archimate.style;
+package ch.braincell.plantuml.vitruv.style;
 
 public record GroupStyle(String stereotype, CornerStyle cornerStyle, LineStyle lineStyle, FontStyle fontStyle, Color backgroundColor, boolean shadow) {
 	public String toPlantCSS() {

@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import ch.braincell.plantuml.archimate.style.Color;
+import ch.braincell.plantuml.vitruv.style.Color;
 
 class ColorTest {
 

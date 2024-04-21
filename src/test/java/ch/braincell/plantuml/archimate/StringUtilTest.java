@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 import org.junit.jupiter.api.Test;
 
+import ch.braincell.plantuml.vitruv.StringUtil;
+
 class StringUtilTest {
 	@Test
 	void test() {
@@ -17,9 +19,9 @@ class StringUtilTest {
 				"",
 				"[[https:www.heise.de/newsticker this is a newsticker link and won't be wrapped.]]",
 				"This is a **//~~string with some~~//**",
-				"**//~~strange behaviour and~~//** some",
-				"very long, long, long text and",
-				"a //~~new line~~ in it//."
+				"**//~~strange behaviour and~~//** some very",
+				"long, long, long text and a //~~new~~//",
+				"//~~line~~ in it//."
 		};
 		
 		String result = StringUtil.wrap(test, 10, "\n");

@@ -1,5 +1,3 @@
-!include <archimate/Archimate>
-
 ' Styling
 ' ##################################
 !define TECHN_FONT_SIZE 12
@@ -27,3 +25,4 @@ hide stereotype
 
 '!pragma layout smetana
 '!pragma layout elk
+!pragma SVGNEWDATA true

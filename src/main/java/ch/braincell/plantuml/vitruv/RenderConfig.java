@@ -2,6 +2,8 @@ package ch.braincell.plantuml.vitruv;
 
 import java.util.Arrays;
 
+import ch.braincell.plantuml.vitruv.style.ElementStyle;
+
 /**
  * Create a Render Configuration to display Archimate diagrams.
  * 
@@ -17,21 +19,22 @@ import java.util.Arrays;
  *                              showGroups is also true.
  * @param groupDocumentation    true draws the documentation to the group.
  * @param leafDocumentation     true draws the documentation to the leaf.
- * @param showLeafs             list of leaf types which will be drawed. If
+ * @param showLeafs             list of leaf types which will be drawn. If
  *                              there are no types configured, all leafs will be
- *                              drawed.
+ *                              drawn.
  */
 public record RenderConfig(boolean canvasShadows, boolean canvasLeftToRight, boolean connectionLabel,
 		boolean connectionTitle, boolean connectionDescription, boolean showGroups, boolean showConsolidated,
-		boolean groupDocumentation, boolean leafDocumentation, LeafType... showLeafs) {
+		boolean groupDocumentation, boolean leafDocumentation, ElementStyle... showLeafs) {
 	/**
 	 * returns true if block should be visible
-	 * @param block
-	 * @return
+	 * 
+	 * @param block block to render
+	 * @return true if the block should be visible, false otherwise.
 	 */
 	public boolean show(Block block) {
 		if (block instanceof Leaf leaf) {
-			return showLeafs.length == 0 || Arrays.stream(showLeafs).anyMatch(lt -> lt == leaf.leafType);
+			return showLeafs.length == 0 || Arrays.stream(showLeafs).anyMatch(lt -> lt == leaf.leafStyle);
 		}
 		return true;
 	}

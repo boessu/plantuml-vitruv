@@ -1,10 +1,9 @@
 package ch.braincell.plantuml.archimate;
 
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-
+import ch.braincell.plantuml.vitruv.StringUtil;
 import org.junit.jupiter.api.Test;
 
-import ch.braincell.plantuml.vitruv.StringUtil;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 class StringUtilTest {
 	@Test

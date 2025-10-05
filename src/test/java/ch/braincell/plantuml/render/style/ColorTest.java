@@ -1,11 +1,10 @@
 package ch.braincell.plantuml.render.style;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
+import ch.braincell.plantuml.vitruv.style.Color;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import ch.braincell.plantuml.vitruv.style.Color;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ColorTest {
 
@@ -13,21 +12,21 @@ class ColorTest {
 	@Test
 	void testColor() {
 		Color testColor = new Color(1, 1, 1);
-		assertTrue(testColor.rgb() == 0x010101);
+        assertEquals(0x010101, testColor.rgb());
 	}
 
 	@DisplayName("convert CSS color to color")
 	@Test
 	void testFromCSS() {
 		Color testColor = Color.fromCSS("#FFCC00");
-		assertTrue(testColor.rgb() == 0xffcc00);
+        assertEquals(0xffcc00, testColor.rgb());
 	}
 
 	@DisplayName("toString produces CSS color format")
 	@Test
 	void testToString() {
 		Color testColor = new Color(0xffcc00);
-		assertTrue(testColor.toString().equals("#ffcc00"));
+        assertEquals("#ffcc00", testColor.toString());
 	}
 
 }

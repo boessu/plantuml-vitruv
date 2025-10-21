@@ -10,18 +10,22 @@ import ch.braincell.plantuml.vitruv.style.LineStyle;
 /**
  * Represents the style of a group in PlantUML, defined by various style
  * components. This record encapsulates the style settings for a group element,
- * such as rectangles.
+ * such as rectangles. It is also a coding example how a custom style can be programmed
+ * if there is the need to do so.
  */
 public record CustomStyle(String stereotype, FormStyle formStyle, LineStyle lineStyle, FontStyle fontStyle,
 		Color backgroundColor, boolean shadow, int wordWrap) implements ElementStyle {
 
+	/**
+	 * A standard style which will be used if there is no style defined.
+	 */
 	public static final CustomStyle standardStyle = new CustomStyle();
 
 	private CustomStyle() {
 		// Standard style if no style is defined.
 		this(null, new FormStyle(Style.RECTANGLE, 0), null, null, Color.WHITE, false, 0);
 	}
-	
+
 	/**
 	 * Generates the PlantUML CSS representation of the group style. It includes
 	 * settings for shadowing, background color, font style, corner style, and line
@@ -34,11 +38,16 @@ public record CustomStyle(String stereotype, FormStyle formStyle, LineStyle line
 		if (stereotype == null)
 			return null;
 		StringBuilder define = new StringBuilder();
-		if (shadow) define.append("    Shadowing ").append(1.5).append("\n");
-		if (backgroundColor != null) define.append("    BackgroundColor ").append(backgroundColor).append('\n');
-		if (fontStyle != null) fontStyle.appendPlantSubCSS(define);
-		if (formStyle != null) formStyle.appendPlantSubCSS(define);
-		if (lineStyle != null) lineStyle.appendPlantSubCSS(define);
+		if (shadow)
+			define.append("    Shadowing ").append(1.5).append("\n");
+		if (backgroundColor != null)
+			define.append("    BackgroundColor ").append(backgroundColor).append('\n');
+		if (fontStyle != null)
+			fontStyle.appendPlantSubCSS(define);
+		if (formStyle != null)
+			formStyle.appendPlantSubCSS(define);
+		if (lineStyle != null)
+			lineStyle.appendPlantSubCSS(define);
 		return new StyleSheet(formStyle.style().command, stereotype, define.toString());
 	}
 

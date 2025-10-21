@@ -338,7 +338,7 @@ public enum ArchimateLeafType implements ElementStyle {
 	 * Represents a 'business role' leaf type in Archimate, with a specific color
 	 * code and actor format.
 	 */
-	BUSINESS_ROLE("business-role", "#BUSINESS", ArchimateLeafType.P_ACTOR),
+	BUSINESS_ROLE("business-role", "#BUSINESS"),
 	/**
 	 * Represents a 'business service' leaf type in Archimate, with a specific color
 	 * code.

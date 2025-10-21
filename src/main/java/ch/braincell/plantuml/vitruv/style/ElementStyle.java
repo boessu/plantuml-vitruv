@@ -20,6 +20,7 @@ public interface ElementStyle extends Style {
 	 * @param color The color to apply to the element. If null, the default color is
 	 *              used.
 	 * @param bold  Whether the element should be bold.
+	 * @param grouped these are the subelements of the element if the element will be used for grouping.
 	 * @return The generated PlantUML syntax for the leaf type.
 	 */
 	String getPlant(String name, String ID, Block.Link link, String color, boolean bold, String grouped);

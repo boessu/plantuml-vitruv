@@ -35,11 +35,15 @@ public record FormStyle(Style style, int size) implements Style.SubStyleSteet {
 	}
 
 	/**
+	 * This returns the specific form of the element which will be defined in
+	 * PlantUML.
 	 * 
-	 * @param name
-	 * @param ID
-	 * @param stereotype
-	 * @return
+	 * @param name       name of the element (mandatory)
+	 * @param ID         ID of the element (mandatory)
+	 * @param stereotype stereotype of the element (optional)
+	 * @param fillStyle  Filling style of the element (e.g. color, optional)
+	 * @return the command line of the form to get an element in PlantUML (without
+	 *         return at the end of the line).
 	 */
 	public String getPlantCommand(String name, String ID, String stereotype, String fillStyle) {
 		StringBuilder result = new StringBuilder(style.command);
@@ -55,12 +59,43 @@ public record FormStyle(Style style, int size) implements Style.SubStyleSteet {
 	 * Enumerates the possible corner styles for elements in PlantUML.
 	 */
 	public enum Style {
-		RECTANGLE("rectangle"), ROUNDEDCORNER("rectangle", "RoundCorner"),
-		DIAGONALCORNER("rectangle", "DiagonalCorner"), ARTIFACT("artifact"), CARD("card"), CLOUD("cloud"),
-		COMPONENT("component"), DATABASE("database"), FILE("file"), FOLDER("folder"), FRAME("frame"),
-		HEXAGON("hexagon"), NODE("node"), PACKAGE("package"), STORAGE("storage");
+		/** rectangle form */
+		RECTANGLE("rectangle"),
+		/** rectangle with round corners */
+		ROUNDEDCORNER("rectangle", "RoundCorner"),
+		/** rectangle with diagonal corners */
+		DIAGONALCORNER("rectangle", "DiagonalCorner"),
+		/** artifact form */
+		ARTIFACT("artifact"),
+		/** card form */
+		CARD("card"),
+		/** cloud form */
+		CLOUD("cloud"),
+		/** component form */
+		COMPONENT("component"),
+		/** database form */
+		DATABASE("database"),
+		/** file form */
+		FILE("file"),
+		/** folder form */
+		FOLDER("folder"),
+		/** fame form */
+		FRAME("frame"),
+		/** hexagon form */
+		HEXAGON("hexagon"),
+		/** node form */
+		NODE("node"),
+		/** package form */
+		PACKAGE("package"),
+		/** storage form */
+		STORAGE("storage"),
+		/** action form */
+		ACTION("action"),
+		/** process form */
+		PROCESS("process");
 
 		private final String plantCSS;
+		/** the defined PlantUML command */
 		public final String command;
 
 		/**

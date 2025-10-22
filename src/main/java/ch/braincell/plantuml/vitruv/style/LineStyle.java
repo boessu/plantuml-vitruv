@@ -33,11 +33,11 @@ public record LineStyle(Style style, Color color, int thickness) implements Styl
 	@Override
 	public void appendPlantSubCSS(StringBuilder define) {
 		if (style != Style.NORMAL)
-			define.append("    BorderStyle ").append(style.toPlantCSS()).append('\n');
+			define.append("    LineStyle ").append(style.toPlantCSS()).append('\n');
 		if (thickness > 1)
-			define.append("    BorderThickness ").append(thickness).append('\n');
+			define.append("    LineThickness ").append(thickness).append('\n');
 		if (color != Color.BLACK)
-			define.append("    BorderColor ").append(color).append('\n');
+			define.append("    LineColor ").append(color).append('\n');
 	}
 
 	/**
@@ -47,9 +47,9 @@ public record LineStyle(Style style, Color color, int thickness) implements Styl
 		/** normal lines */
 		NORMAL(""),
 		/** line is dashed */
-		DASHED("dashed"),
+		DASHED("5-5"),
 		/** line is dotted */
-		DOTTED("dotted");
+		DOTTED("2-2");
 
 		private String plantCSS;
 

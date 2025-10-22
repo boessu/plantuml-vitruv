@@ -55,23 +55,29 @@ public record CustomStyle(String stereotype, FormStyle formStyle, LineStyle line
 	public String getPlant(String name, String ID, Block.Link link, String color, boolean bold, String grouped) {
 		StringBuilder result = new StringBuilder();
 		String fatLine = "";
+		String boldName = "";
 		if (bold) {
-			name = "**" + name + "**";
+			boldName = "**";
 			fatLine = color == null ? "#line.bold" : ";line.bold";
 		}
 		String fillStyle = color == null ? fatLine : color + fatLine;
 
+		if (link != null && link.url() != null && !link.block()) {
+			name = boldName + "[[" + link.url() + " " + name + "]]" + boldName;
+		} else {
+			name = boldName + name + boldName;
+		}
+
 		if (wordWrap > 0)
 			name = StringUtil.wrap(name, wordWrap, "\\n");
-		if (link == null || link.block())
-			result.append(formStyle.getPlantCommand(name, ID, stereotype, fillStyle));
-		else if (link != null)
-			result.append(formStyle.getPlantCommand("[[" + link.url() + " " + name + "]]", ID, stereotype, fillStyle));
+		result.append(formStyle.getPlantCommand(name, ID, stereotype, fillStyle));
+		
 		if (grouped != null)
 			result.append(" {\n").append(grouped).append("}\n");
 		else
 			result.append("\n");
-		if (link != null && link.block())
+		
+		if (link != null && link.url() != null && link.block())
 			result.append("url for ").append(ID).append(" is [[").append(link.url()).append("]]\n");
 		return result.toString();
 	}

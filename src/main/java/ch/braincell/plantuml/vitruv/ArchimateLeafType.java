@@ -670,4 +670,9 @@ public enum ArchimateLeafType implements ElementStyle {
 	public StyleSheet getPlantCSS() {
 		return null;
 	}
+
+	@Override
+	public String getSpriteHeader() {
+		return null;
+	}
 }

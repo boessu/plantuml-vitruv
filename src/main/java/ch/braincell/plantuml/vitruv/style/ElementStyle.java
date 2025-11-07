@@ -34,6 +34,13 @@ public interface ElementStyle extends Style {
 	String getImport();
 
 	/**
+	 * Definition of custom sprites.
+	 * 
+	 * @return sprite definition for plantUML.
+	 */
+	String getSpriteHeader();
+	
+	/**
 	 * Gets the (additional) stereotype of the leaf as a string. This will be used
 	 * in a consolidated view to show what element it is.
 	 * 

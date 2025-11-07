@@ -6,6 +6,7 @@ import ch.braincell.plantuml.vitruv.style.FontStyle;
 import ch.braincell.plantuml.vitruv.style.FormStyle;
 import ch.braincell.plantuml.vitruv.style.FormStyle.Style;
 import ch.braincell.plantuml.vitruv.style.LineStyle;
+import ch.braincell.plantuml.vitruv.style.Sprite;
 
 /**
  * Represents the style of a group in PlantUML, defined by various style
@@ -13,7 +14,7 @@ import ch.braincell.plantuml.vitruv.style.LineStyle;
  * such as rectangles. It is also a coding example how a custom style can be programmed
  * if there is the need to do so.
  */
-public record CustomStyle(String stereotype, FormStyle formStyle, LineStyle lineStyle, FontStyle fontStyle,
+public record CustomStyle(String stereotype, FormStyle formStyle, LineStyle lineStyle, FontStyle fontStyle, Sprite sprite,
 		Color backgroundColor, boolean shadow, int wordWrap) implements ElementStyle {
 
 	/**
@@ -23,7 +24,7 @@ public record CustomStyle(String stereotype, FormStyle formStyle, LineStyle line
 
 	private CustomStyle() {
 		// Standard style if no style is defined.
-		this(null, new FormStyle(Style.RECTANGLE, 0), null, null, Color.WHITE, false, 0);
+		this(null, new FormStyle(Style.RECTANGLE, 0), null, null, null, Color.WHITE, false, 0);
 	}
 
 	/**
@@ -34,6 +35,7 @@ public record CustomStyle(String stereotype, FormStyle formStyle, LineStyle line
 	 * @return A string representing the PlantUML CSS properties for the group
 	 *         style.
 	 */
+	@Override
 	public StyleSheet getPlantCSS() {
 		if (stereotype == null)
 			return null;
@@ -70,7 +72,7 @@ public record CustomStyle(String stereotype, FormStyle formStyle, LineStyle line
 
 		if (wordWrap > 0)
 			name = StringUtil.wrap(name, wordWrap, "\\n");
-		result.append(formStyle.getPlantCommand(name, ID, stereotype, fillStyle));
+		result.append(formStyle.getPlantCommand(name, ID, stereotype, fillStyle, sprite));
 		
 		if (grouped != null)
 			result.append(" {\n").append(grouped).append("}\n");
@@ -89,11 +91,16 @@ public record CustomStyle(String stereotype, FormStyle formStyle, LineStyle line
 
 	@Override
 	public String getColor() {
-		return backgroundColor.toString();
+		return backgroundColor == null ? null : backgroundColor.toString();
 	}
 
 	@Override
 	public String getImport() {
 		return null;
+	}
+
+	@Override
+	public String getSpriteHeader() {
+		return sprite == null ? null : sprite.getPlantSprite();
 	}
 }

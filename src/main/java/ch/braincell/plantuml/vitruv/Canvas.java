@@ -68,6 +68,9 @@ public class Canvas {
 
 	// needed imports at the beginning of a plantuml source.
 	private final Set<String> imports;
+
+	private final Set<String> sprites;
+
 	// style for elements and groups
 	private final Map<String, Set<Style.StyleSheet>> styleSkins = new HashMap<>();
 
@@ -80,17 +83,20 @@ public class Canvas {
 	 */
 	public Canvas(String title, Paragraph... documentations) {
 		this.imports = new HashSet<>();
+		this.sprites = new HashSet<>();
 		this.title = title;
 		Stream.of(documentations).forEach(this::addDocumentation);
 		if (PLANT_HEADER == null) {
 			InputStream in = this.getClass().getResourceAsStream("header.puml");
 			String header = "";
-			try (BufferedReader reader = new BufferedReader(new InputStreamReader(in))) {
-				header = reader.lines().collect(Collectors.joining("\n"));
-			} catch (IOException e) {
-				log.log(Level.SEVERE, "Failed header.puml loading!", e);
+			if (in != null) {
+				try (BufferedReader reader = new BufferedReader(new InputStreamReader(in))) {
+					header = reader.lines().collect(Collectors.joining("\n"));
+				} catch (IOException e) {
+					log.log(Level.SEVERE, "Failed header.puml loading!", e);
+				}
+				PLANT_HEADER = header + "\n";
 			}
-			PLANT_HEADER = header + "\n";
 		}
 	}
 
@@ -132,8 +138,8 @@ public class Canvas {
 	 *                       be used to identify the leaf in the resulting Plantuml
 	 *                       code, (optional)
 	 * @param url            the URL of the group (optional)
-	 * @param normalStyle    the normal style of the group. (optional, takes
-	 *                       a standard style if there is no one)
+	 * @param normalStyle    the normal style of the group. (optional, takes a
+	 *                       standard style if there is no one)
 	 * @param highlightStyle the highlighted style of the group. (optional)
 	 * @param parentGroup    the Parent group (optional)
 	 * @param documentations the documentation of the group with paragraphs
@@ -157,6 +163,8 @@ public class Canvas {
 	private void addStyleSheet(ElementStyle style) {
 		Style.StyleSheet styleSheet;
 		if (style != null && (styleSheet = style.getPlantCSS()) != null) {
+			if (style.getSpriteHeader() != null)
+				sprites.add(style.getSpriteHeader());
 			if (styleSkins.get(style.getPlantCSS().element()) == null)
 				styleSkins.put(style.getPlantCSS().element(), new HashSet<>());
 			styleSkins.get(style.getPlantCSS().element()).add(styleSheet);
@@ -225,8 +233,9 @@ public class Canvas {
 		StringBuilder result = new StringBuilder("@startuml\n");
 		// PlantUML Imports
 		imports.forEach(importing -> result.append(importing).append('\n'));
-		result.append(PLANT_HEADER);
-
+		if (PLANT_HEADER != null)
+			result.append(PLANT_HEADER);
+		sprites.forEach(sprite -> result.append(sprite).append('\n'));
 		// If there are custom skins for custom styles: enrich them here.
 		if (!styleSkins.isEmpty()) {
 			result.append("<style>\n");

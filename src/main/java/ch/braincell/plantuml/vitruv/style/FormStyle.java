@@ -48,8 +48,8 @@ public record FormStyle(Style style, int size) implements Style.SubStyleSteet {
 	public String getPlantCommand(String name, String ID, String stereotype, String fillStyle, Sprite sprite) {
 		StringBuilder result = new StringBuilder(style.command);
 		result.append(" \"").append(name).append("\" as ").append(ID);
-		if (sprite != null)
-			result.append(" <<$").append(sprite.name()).append(">>");
+		if (sprite != null) 
+			result.append(sprite.getPlantStereotype());
 		if (stereotype != null)
 			result.append(" <<").append(stereotype).append(">>");
 		if (fillStyle != null)

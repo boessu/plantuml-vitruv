@@ -1,21 +1,23 @@
 package ch.braincell.plantuml.vitruv.style;
 
 /**
- * Represents a color using RGB values. Provides predefined constants for common
- * colors and methods to manipulate and convert color values.
+ * Represents a color using RGB(A) values. Provides predefined constants for
+ * common colors and methods to manipulate and convert color values.
  */
-public record Color(int rgb) {
+public record Color(int argb) {
 	// Predefined color constants
 	/** The color black. */
-	public final static Color BLACK = new Color(0x000000);
+	public final static Color BLACK = new Color(0xFF000000);
 	/** The color white. */
-	public final static Color WHITE = new Color(0xFFFFFF);
+	public final static Color WHITE = new Color(0xFFFFFFFF);
 	/** The color red. */
-	public final static Color RED = new Color(0xFF0000);
+	public final static Color RED = new Color(0xFFFF0000);
 	/** The color green. */
-	public final static Color GREEN = new Color(0x00FF00);
+	public final static Color GREEN = new Color(0xFF00FF00);
 	/** The color blue. */
-	public final static Color BLUE = new Color(0x0000FF);
+	public final static Color BLUE = new Color(0xFF0000FF);
+	/** Transparent */
+	public final static Color TRANSPARENT = new Color(0x00000000);
 
 	/**
 	 * Constructs a new {@code Color} instance using individual red, green, and blue
@@ -26,7 +28,20 @@ public record Color(int rgb) {
 	 * @param blue  The blue component value of the color (0-255).
 	 */
 	public Color(int red, int green, int blue) {
-		this(red << 16 | green << 8 | blue);
+		this(red, green, blue, 255);
+	}
+
+	/**
+	 * Constructs a new {@code Color} instance using individual red, green, and blue
+	 * components.
+	 *
+	 * @param red   The red component value of the color (0-255).
+	 * @param green The green component value of the color (0-255).
+	 * @param blue  The blue component value of the color (0-255).
+	 * @param alpha The transparency component value of the color (0-255).
+	 */
+	public Color(int red, int green, int blue, int alpha) {
+		this((alpha & 0xFF) << 24 | (red & 0xFF) << 16 | (green & 0xFF) << 8 | (blue & 0xFF));
 	}
 
 	/**
@@ -37,12 +52,27 @@ public record Color(int rgb) {
 	 */
 	public static Color fromCSS(String cssColor) {
 		// check css Hex Code color format
-		if (cssColor.matches("#[0-9a-fA-F]{6}")) {
-			int rgb = Integer.parseInt(cssColor.substring(1, 7), 16);
-			return new Color(rgb);
+		if (!cssColor.startsWith("#")) {
+			throw new NumberFormatException("Invalid format: " + cssColor);
 		}
 
-		throw new NumberFormatException("Invalid css color format (should be #rrggbb): " + cssColor);
+		String hex = cssColor.substring(1);
+
+		if (hex.length() == 6) {
+			// Standard RRGGBB -> Assume Opaque (FF)
+			int rgb = Integer.parseInt(hex, 16);
+			return new Color(0xFF000000 | rgb);
+		} else if (hex.length() == 8) {
+			// PlantUML RRGGBBAA -> Convert to ARGB
+			long rgba = Long.parseLong(hex, 16);
+			int r = (int) ((rgba >> 24) & 0xFF);
+			int g = (int) ((rgba >> 16) & 0xFF);
+			int b = (int) ((rgba >> 8) & 0xFF);
+			int a = (int) (rgba & 0xFF);
+			return new Color(a, r, g, b);
+		}
+
+		throw new NumberFormatException("Hex color must be 6 or 8 chars (#rrggbb or #rrggbbaa): " + cssColor);
 	}
 
 	/**
@@ -52,17 +82,17 @@ public record Color(int rgb) {
 	 */
 	@Override
 	public String toString() {
-		final StringBuilder sb = new StringBuilder(Integer.toHexString(rgb));
-		if (sb.length() < 6) {
-			int charsToGo = 6 - sb.length();
-			while (charsToGo > 0) {
-				sb.insert(0, '0');
-				charsToGo--;
-			}
+		int a = (argb >> 24) & 0xFF;
+		int r = (argb >> 16) & 0xFF;
+		int g = (argb >> 8) & 0xFF;
+		int b = argb & 0xFF;
+
+		// If fully opaque, standard #RRGGBB is usually fine
+		if (a == 255) {
+			return String.format("#%02X%02X%02X", r, g, b);
 		}
 
-		sb.insert(0, "#");
-
-		return sb.toString();
+		// PlantUML Alpha Suffix: #RRGGBBAA
+		return String.format("#%02X%02X%02X%02X", r, g, b, a);
 	}
 }

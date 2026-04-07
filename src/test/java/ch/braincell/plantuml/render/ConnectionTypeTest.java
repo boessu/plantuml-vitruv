@@ -24,9 +24,9 @@ class ConnectionTypeTest {
 	void testGetPlant() {
         assertEquals(" --> ", ArchimateConnectionType.SERVING.getPlant(null, false), ArchimateConnectionType.SERVING.getPlant(null, false));
         assertEquals(" --> ", ArchimateConnectionType.SERVING.getPlant(Color.BLACK, false), ArchimateConnectionType.SERVING.getPlant(Color.BLACK, false));
-        assertEquals(" -[#ff0000]-> ", ArchimateConnectionType.SERVING.getPlant(Color.RED, false), ArchimateConnectionType.SERVING.getPlant(Color.RED, false));
+        assertEquals(" -[#FF0000]-> ", ArchimateConnectionType.SERVING.getPlant(Color.RED, false), ArchimateConnectionType.SERVING.getPlant(Color.RED, false));
         assertEquals(" -[thickness=3,#000000]-> ", ArchimateConnectionType.SERVING.getPlant(null, true), ArchimateConnectionType.SERVING.getPlant(null, true));
-        assertEquals(" -[thickness=3,#0000ff]-> ", ArchimateConnectionType.SERVING.getPlant(Color.BLUE, true), ArchimateConnectionType.SERVING.getPlant(null, true));
+        assertEquals(" -[thickness=3,#0000FF]-> ", ArchimateConnectionType.SERVING.getPlant(Color.BLUE, true), ArchimateConnectionType.SERVING.getPlant(null, true));
 	}
 
 }

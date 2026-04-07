@@ -12,21 +12,21 @@ class ColorTest {
 	@Test
 	void testColor() {
 		Color testColor = new Color(1, 1, 1);
-        assertEquals(0x010101, testColor.rgb());
+        assertEquals(0xff010101, testColor.argb());
 	}
 
 	@DisplayName("convert CSS color to color")
 	@Test
 	void testFromCSS() {
 		Color testColor = Color.fromCSS("#FFCC00");
-        assertEquals(0xffcc00, testColor.rgb());
+        assertEquals(0xffffcc00, testColor.argb());
 	}
 
 	@DisplayName("toString produces CSS color format")
 	@Test
 	void testToString() {
-		Color testColor = new Color(0xffcc00);
-        assertEquals("#ffcc00", testColor.toString());
+		Color testColor = new Color(0xffffcc00);
+        assertEquals("#FFCC00", testColor.toString());
 	}
 
 }

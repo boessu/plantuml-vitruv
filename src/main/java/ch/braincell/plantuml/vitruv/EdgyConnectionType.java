@@ -5,6 +5,8 @@ import ch.braincell.plantuml.vitruv.style.Color;
 /**
  * Enum representing the different connection types in the Edgy Enterprise Design Foundation. These types
  * indicate the style of a connection when represented in PlantUML.
+ * 
+ * @author boessu
  */
 public enum EdgyConnectionType implements ConnectionType {
     /**

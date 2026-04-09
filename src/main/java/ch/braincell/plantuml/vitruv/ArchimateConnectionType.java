@@ -6,6 +6,15 @@ import ch.braincell.plantuml.vitruv.style.Color;
  * Enum representing different types of connections in Archimate modeling. Each
  * connection type is associated with a specific visual representation in
  * PlantUML diagrams.
+ * <p>
+ * This enum defines all possible connection types used in Archimate diagrams,
+ * including their symbolic representations for use in PlantUML. These
+ * connections are used to depict relationships such as access, assignment,
+ * association, composition, flow, influence, realization, serving,
+ * specialization, and triggering between elements.
+ * </p>
+ *
+ * @author boessu
  */
 public enum ArchimateConnectionType implements ConnectionType {
 	/** Represents an access connection in Archimate. */
@@ -49,7 +58,7 @@ public enum ArchimateConnectionType implements ConnectionType {
 	 *
 	 * @param plant The complete PlantUML syntax for the connection type.
 	 */
-    ArchimateConnectionType(String plant) {
+	ArchimateConnectionType(String plant) {
 		int split = plant.indexOf('?');
 		this.beginPlant = " " + plant.substring(0, split);
 		this.endPlant = plant.substring(split + 1) + " ";

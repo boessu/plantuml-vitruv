@@ -3,6 +3,8 @@ package ch.braincell.plantuml.vitruv.style;
 /**
  * This class generates a CSS Stylesheet as it is used in PlantUML header area.
  * It conforms to the new {@code <style/>} tag defined in PlantUML.
+ * 
+ * @author boessu
  */
 public interface Style {
 	/**

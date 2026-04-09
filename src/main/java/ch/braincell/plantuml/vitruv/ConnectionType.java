@@ -5,6 +5,8 @@ import ch.braincell.plantuml.vitruv.style.Color;
 /**
  * Interface defining the contract for generating PlantUML syntax for connection
  * types.
+ * 
+ * @author boessu
  */
 public interface ConnectionType {
 	/**

@@ -5,6 +5,8 @@ import java.net.URL;
 /**
  * Represents a reference with a name and a URL.
  * This record is comparable based on its string representation.
+ * 
+ * @author boessu
  */
 public record Reference (String name, URL url) implements Comparable<Reference> {
 

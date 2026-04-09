@@ -27,6 +27,8 @@ import ch.braincell.plantuml.vitruv.style.Style;
  * elements such as groups, leafs, and connections. The canvas also handles the
  * generation of PlantUML source code based on the added elements and their
  * styles.
+ * 
+ * @author boessu
  */
 public class Canvas {
 	private final Logger log = Logger.getLogger(Canvas.class.getCanonicalName());

@@ -8,6 +8,8 @@ import ch.braincell.plantuml.vitruv.style.ElementStyle;
 /**
  * Represents a leaf node in a PlantUML diagram, which can have a type, color,
  * and documentation.
+ * 
+ * @author boessu
  */
 public class Leaf extends Block {
 

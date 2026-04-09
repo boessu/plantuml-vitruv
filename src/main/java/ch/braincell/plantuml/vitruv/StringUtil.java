@@ -7,6 +7,8 @@ import java.util.regex.Pattern;
  * The {@code StringUtil} class provides utility methods for string manipulation with a focus on handling special cases
  * such as creole syntax and URLs within strings. It includes methods for replacing characters, checking for whitespace
  * or symbols, wrapping text, and counting occurrences of substrings.
+ * 
+ * @author boessu
  */
 public class StringUtil {
 

@@ -22,6 +22,8 @@ import ch.braincell.plantuml.vitruv.style.ElementStyle;
  * @param showLeafs             list of leaf types which will be drawn. If
  *                              there are no types configured, all leafs will be
  *                              drawn.
+ * 
+ * @author boessu
  */
 public record RenderConfig(boolean canvasShadows, boolean canvasLeftToRight, boolean connectionLabel,
 		boolean connectionTitle, boolean connectionDescription, boolean showGroups, boolean showConsolidated,

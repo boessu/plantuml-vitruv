@@ -12,6 +12,8 @@ import java.util.Collection;
  * @param references    An array of {@link Reference} objects for URL links
  *                      related to the paragraph. Will be added at the end of
  *                      the paragraph.
+ * 
+ * @author boessu
  */
 public record Paragraph(String title, String documentation, boolean wrap, Reference... references) {
 

@@ -4,6 +4,8 @@ package ch.braincell.plantuml.vitruv.style;
  * Defines the corner style for elements in PlantUML, including the corner type
  * and size. This record can be used to generate PlantUML CSS properties for
  * corner styling.
+ * 
+ * @author boessu
  */
 public record FormStyle(Style style, int size) implements Style.SubStyleSteet {
 

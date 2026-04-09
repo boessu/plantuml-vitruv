@@ -9,104 +9,124 @@ import ch.braincell.plantuml.vitruv.style.ElementStyle;
  * Enterprise design. The EdgyLeafType enum represents types of leafs that are
  * unique to the Edgy Enterprise design and require specific attributes and
  * behavior.
+ * 
+ * @author boessu
  */
 public enum EdgyLeafType implements ElementStyle {
 	/**
+	 * At the intersection of all three facets, four generic base elements allow us
+	 * to capture what is happening in an enterprise and its ecosystem, without
+	 * focusing on a particular facet or intersection perspective:
 	 * 
+	 * people perform activities, using and creating objects to achieve outcomes.
+	 * 
+	 * Everything that goes on in and around enterprises can be described with those
+	 * base elements only. They are the shared vocabulary that underpins the facet
+	 * and intersection elements.
+	 * 
+	 * This classification of enterprise elements is inspired by the FBS Ontology:
+	 * outcomes represent an enterprise's actual or desired function, activities
+	 * represent its behaviour over time, and objects represent the way it is
+	 * enabled by structures.
 	 */
 	BASEFACET("base", "1"),
 	/**
-	 * 
+	 * The individuals co-creating the enterprise or using products.
 	 */
 	PEOPLE("people", "people"),
 	/**
-	 * 
+	 * A result or change that occurs within our enterprise or its ecosystem.
 	 */
 	OUTCOME("outcome", "outcomeBlack"),
 	/**
-	 * 
+	 * What is being done or going on in our enterprise or its ecosystem.
 	 */
 	ACTIVITY("activity", "activityBlack"),
 	/**
-	 * 
+	 * A structure that is relevant to the enterprise.
 	 */
 	OBJECT("object", "objectBlack"),
 
 	/**
-	 * 
+	 * The values and beliefs enterprises exhibit through their messages and
+	 * actions.
 	 */
 	IDENTITYFACET("identity", "0"),
 	/**
-	 * 
+	 * A reason why an enterprise exists and what people pursue and believe in.
 	 */
 	PURPOSE("purpose", "outcomeWhite"),
 	/**
-	 * 
+	 * The way we make sense of our enterprise and communicate to people what it
+	 * does.
 	 */
 	STORY("story", "activityWhite"),
 	/**
-	 * 
+	 * What is being communicated to people.
 	 */
 	CONTENT("content", "objectWhite"),
 
 	/**
-	 * 
+	 * How are we being perceived? What is our reputation and image when people are
+	 * in touch with us or our products?
 	 */
 	BRANDFACET("brand", "0"),
 	/**
-	 * 
+	 * Our name and what it stands for.
 	 */
 	BRAND("brand", "objectWhite"),
 
 	/**
-	 * 
+	 * The impact through interactions the enterprise has on people and their lives.
 	 */
 	EXPERIENCEFACET("experience", "0"),
 	/**
-	 * 
+	 * What people want to achieve and get done.
 	 */
 	TASK("task", "outcomeWhite"),
 	/**
-	 * 
+	 * The means people use to engage and interact with us.
 	 */
 	CHANNEL("channel", "objectWhite"),
 	/**
-	 * 
+	 * The events and activities people experience in their lives.
 	 */
 	JOURNEY("journey", "activityWhite"),
 
 	/**
-	 * 
+	 * What do we make and offer to people? What is the result of our work? What is
+	 * the value these results create for people?
 	 */
 	PRODUCTFACET("product", "0"),
 	/**
-	 * 
+	 * What we make, offer and deliver for people's benefit.
 	 */
 	PRODUCT("product", "objectWhite"),
 
 	/**
-	 * 
+	 * The structures needed to make an enterprise operate and connect to the
+	 * ecosystem.
 	 */
 	ARCHITECTUREFACET("architecture", "0"),
 	/**
-	 * 
+	 * What we are able to do by orchestrating people and assets.
 	 */
 	CAPABILITY("capability", "outcomeWhite"),
 	/**
-	 * 
+	 * An object we need and use to perform our capabilities.
 	 */
 	ASSET("asset", "objectWhite"),
 	/**
-	 * 
+	 * A set of related activities our enterprise carries out.
 	 */
 	PROCESS("process", "activityWhite"),
 
 	/**
-	 * 
+	 * How do we organise ourselves as teams? How do we work together?
 	 */
 	ORGANISATIONFACET("organisation", "0"),
 	/**
-	 * 
+	 * A group of people working together.
 	 */
 	ORGANISATION("organisation", "objectWhite");
 

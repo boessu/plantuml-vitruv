@@ -8,6 +8,8 @@ import ch.braincell.plantuml.vitruv.style.ElementStyle;
  * Enum representing different types of leaf elements in Archimate modeling.
  * Each leaf type is associated with a specific stereotype and visual
  * representation in PlantUML diagrams.
+ * 
+ * @author boessu
  */
 public enum ArchimateLeafType implements ElementStyle {
 

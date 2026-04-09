@@ -3,6 +3,8 @@ package ch.braincell.plantuml.vitruv.style;
 /**
  * Defines the style of a line with a specific style, color, and thickness. This
  * record can be used to generate PlantUML CSS properties for lines.
+ * 
+ * @author boessu
  */
 public record LineStyle(Style style, Color color, int thickness) implements Style.SubStyleSteet {
 

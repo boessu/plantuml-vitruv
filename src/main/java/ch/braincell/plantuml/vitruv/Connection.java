@@ -9,6 +9,8 @@ package ch.braincell.plantuml.vitruv;
  * @param label       The label of the connection.
  * @param description A description of the connection.
  * @param references  An array of references associated with the connection.
+ * 
+ * @author boessu
  */
 public record Connection(Block sender, Block receiver, ConnectionStyle style, String label, String description,
 		Reference[] references) {

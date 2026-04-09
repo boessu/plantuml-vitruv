@@ -13,6 +13,8 @@ import ch.braincell.plantuml.vitruv.style.Sprite;
  * components. This record encapsulates the style settings for a group element,
  * such as rectangles. It is also a coding example how a custom style can be programmed
  * if there is the need to do so.
+ * 
+ * @author boessu
  */
 public record CustomStyle(String stereotype, FormStyle formStyle, LineStyle lineStyle, FontStyle fontStyle, Sprite sprite,
 		Color backgroundColor, boolean shadow, int wordWrap) implements ElementStyle {

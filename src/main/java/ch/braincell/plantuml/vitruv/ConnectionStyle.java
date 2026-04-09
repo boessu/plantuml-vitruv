@@ -8,6 +8,8 @@ import ch.braincell.plantuml.vitruv.style.Color;
  * @param type  The type of the connection.
  * @param color The color of the connection line.
  * @param bold  A boolean indicating if the connection line is bold.
+ * 
+ * @author boessu
  */
 public record ConnectionStyle(ConnectionType type, Color color, boolean bold) {
 

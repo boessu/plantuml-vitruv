@@ -4,6 +4,8 @@ package ch.braincell.plantuml.vitruv.style;
  * Defines the font style for text elements in PlantUML, including the font
  * style and color. This record can be used to generate PlantUML CSS properties
  * for text styling.
+ * 
+ * @author boessu
  */
 public record FontStyle(Style style, Color color) implements Style.SubStyleSteet {
 

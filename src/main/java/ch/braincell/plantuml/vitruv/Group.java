@@ -8,6 +8,8 @@ import ch.braincell.plantuml.vitruv.style.ElementStyle;
 /**
  * Represents a group of blocks in a PlantUML diagram, which can be styled and
  * documented.
+ * 
+ * @author boessu
  */
 public class Group extends Block {
 

@@ -7,6 +7,8 @@ import ch.braincell.plantuml.vitruv.Block;
  * {@code ElementStyle}s are responsible for providing the visual representation
  * details such as PlantUML syntax, stereotypes, and colors for elements in the
  * diagram.
+ * 
+ * @author boessu
  */
 public interface ElementStyle extends Style {
 

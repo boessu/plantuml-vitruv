@@ -3,6 +3,8 @@ package ch.braincell.plantuml.vitruv.style;
 /**
  * Represents a color using RGB(A) values. Provides predefined constants for
  * common colors and methods to manipulate and convert color values.
+ * 
+ * @author boessu
  */
 public record Color(int argb) {
 	// Predefined color constants

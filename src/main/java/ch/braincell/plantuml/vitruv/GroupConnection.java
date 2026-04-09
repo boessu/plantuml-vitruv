@@ -6,6 +6,8 @@ import java.util.TreeSet;
 
 /**
  * Manages connections between groups in a PlantUML diagram.
+ * 
+ * @author boessu
  */
 public class GroupConnection {
 

@@ -44,13 +44,14 @@ public record FormStyle(Style style, int size) implements Style.SubStyleSteet {
 	 * @param ID         ID of the element (mandatory)
 	 * @param stereotype stereotype of the element (optional)
 	 * @param fillStyle  Filling style of the element (e.g. color, optional)
+	 * @param sprite     a sprite to draw within the form (optional)
 	 * @return the command line of the form to get an element in PlantUML (without
 	 *         return at the end of the line).
 	 */
 	public String getPlantCommand(String name, String ID, String stereotype, String fillStyle, Sprite sprite) {
 		StringBuilder result = new StringBuilder(style.command);
 		result.append(" \"").append(name).append("\" as ").append(ID);
-		if (sprite != null) 
+		if (sprite != null)
 			result.append(sprite.getPlantStereotype());
 		if (stereotype != null)
 			result.append(" <<").append(stereotype).append(">>");

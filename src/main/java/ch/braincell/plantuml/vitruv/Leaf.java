@@ -23,7 +23,7 @@ public class Leaf extends Block {
 	 * 
 	 * @param name           The name of the leaf.
 	 * @param userID         The user ID associated with the leaf.
-	 * @param leafStyle       The type of the leaf.
+	 * @param leafStyle      The type of the leaf.
 	 * @param url            The URL for documentation or reference.
 	 * @param color          The primary color of the leaf.
 	 * @param highlightColor The highlight color of the leaf; if null, the primary
@@ -74,7 +74,7 @@ public class Leaf extends Block {
 	}
 
 	/**
-	 * returns color of the leaf in the Hex String form #RRGGBB. Returns null if
+	 * returns color of the leaf in the Hex String form #RRGGBB(AA). Returns null if
 	 * there is no color defined.
 	 * 
 	 * @param bold true for highlight color, false otherwise.

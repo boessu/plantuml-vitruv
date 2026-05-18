@@ -5,14 +5,14 @@ import java.text.MessageFormat;
 import ch.braincell.plantuml.vitruv.style.ElementStyle;
 
 /**
- * This class provides an implementation of the LeafType interface for the Edgy
+ * This class provides an implementation of the ElementType interface for the Edgy
  * Enterprise design. The EdgyLeafType enum represents types of leafs that are
  * unique to the Edgy Enterprise design and require specific attributes and
  * behavior.
  * 
  * @author boessu
  */
-public enum EdgyLeafType implements ElementStyle {
+public enum EdgyElementStyle implements ElementStyle {
 	/**
 	 * At the intersection of all three facets, four generic base elements allow us
 	 * to capture what is happening in an enterprise and its ecosystem, without
@@ -33,19 +33,19 @@ public enum EdgyLeafType implements ElementStyle {
 	/**
 	 * The individuals co-creating the enterprise or using products.
 	 */
-	PEOPLE("people", "people"),
+	BASE_PEOPLE("people", "people"),
 	/**
 	 * A result or change that occurs within our enterprise or its ecosystem.
 	 */
-	OUTCOME("outcome", "outcomeBlack"),
+	BASE_OUTCOME("outcome", "outcomeBlack"),
 	/**
 	 * What is being done or going on in our enterprise or its ecosystem.
 	 */
-	ACTIVITY("activity", "activityBlack"),
+	BASE_ACTIVITY("activity", "activityBlack"),
 	/**
 	 * A structure that is relevant to the enterprise.
 	 */
-	OBJECT("object", "objectBlack"),
+	BASE_OBJECT("object", "objectBlack"),
 
 	/**
 	 * The values and beliefs enterprises exhibit through their messages and
@@ -55,16 +55,16 @@ public enum EdgyLeafType implements ElementStyle {
 	/**
 	 * A reason why an enterprise exists and what people pursue and believe in.
 	 */
-	PURPOSE("purpose", "outcomeWhite"),
+	IDENTITY_PURPOSE("purpose", "outcomeWhite"),
 	/**
 	 * The way we make sense of our enterprise and communicate to people what it
 	 * does.
 	 */
-	STORY("story", "activityWhite"),
+	IDENTITY_STORY("story", "activityWhite"),
 	/**
 	 * What is being communicated to people.
 	 */
-	CONTENT("content", "objectWhite"),
+	IDENTITY_CONTENT("content", "objectWhite"),
 
 	/**
 	 * How are we being perceived? What is our reputation and image when people are
@@ -83,15 +83,15 @@ public enum EdgyLeafType implements ElementStyle {
 	/**
 	 * What people want to achieve and get done.
 	 */
-	TASK("task", "outcomeWhite"),
+	EXPERIENCE_TASK("task", "outcomeWhite"),
 	/**
 	 * The means people use to engage and interact with us.
 	 */
-	CHANNEL("channel", "objectWhite"),
+	EXPERIENCE_CHANNEL("channel", "objectWhite"),
 	/**
 	 * The events and activities people experience in their lives.
 	 */
-	JOURNEY("journey", "activityWhite"),
+	EXPERIENCE_JOURNEY("journey", "activityWhite"),
 
 	/**
 	 * What do we make and offer to people? What is the result of our work? What is
@@ -111,15 +111,15 @@ public enum EdgyLeafType implements ElementStyle {
 	/**
 	 * What we are able to do by orchestrating people and assets.
 	 */
-	CAPABILITY("capability", "outcomeWhite"),
+	ARCHITECTURE_CAPABILITY("capability", "outcomeWhite"),
 	/**
 	 * An object we need and use to perform our capabilities.
 	 */
-	ASSET("asset", "objectWhite"),
+	ARCHITECTURE_ASSET("asset", "objectWhite"),
 	/**
 	 * A set of related activities our enterprise carries out.
 	 */
-	PROCESS("process", "activityWhite"),
+	ARCHITECTURE_PROCESS("process", "activityWhite"),
 
 	/**
 	 * How do we organise ourselves as teams? How do we work together?
@@ -167,7 +167,7 @@ public enum EdgyLeafType implements ElementStyle {
 	 *                   {2}: color and line style<br>
 	 *                   {3}: edgy stereotype {4}: sprite
 	 */
-	EdgyLeafType(String command, String sprite) {
+	EdgyElementStyle(String command, String sprite) {
 		if (sprite.equals("1") || sprite.equals("0")) {
 			this.command = command + "Facet";
 			facet = 1;
@@ -180,7 +180,7 @@ public enum EdgyLeafType implements ElementStyle {
 	}
 
 	/**
-	 * Retrieves the enum constant that matches the given name. Defaults to MEANING
+	 * Retrieves the enum constant that matches the given name. Defaults to BASE_OBJECT
 	 * if the name is null or no match is found.
 	 *
 	 * @param name The name of the enum constant to retrieve.
@@ -188,13 +188,13 @@ public enum EdgyLeafType implements ElementStyle {
 	 */
 	public static ElementStyle getEnum(String name) {
 		if (name == null)
-			return OBJECT;
-		for (EdgyLeafType value : EdgyLeafType.values()) {
+			return BASE_OBJECT;
+		for (EdgyElementStyle value : EdgyElementStyle.values()) {
 			if (name.toLowerCase().equals(value.command)) {
 				return value;
 			}
 		}
-		return OBJECT;
+		return BASE_OBJECT;
 	}
 
 	@Override

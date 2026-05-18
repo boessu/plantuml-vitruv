@@ -19,8 +19,8 @@ import ch.braincell.plantuml.vitruv.style.ElementStyle;
  *                              showGroups is also true.
  * @param groupDocumentation    true draws the documentation to the group.
  * @param leafDocumentation     true draws the documentation to the leaf.
- * @param showLeafs             list of leaf types which will be drawn. If
- *                              there are no types configured, all leafs will be
+ * @param showLeafs             list of leaf types which will be drawn. If there
+ *                              are no types configured, all leafs will be
  *                              drawn.
  * 
  * @author boessu
@@ -28,6 +28,18 @@ import ch.braincell.plantuml.vitruv.style.ElementStyle;
 public record RenderConfig(boolean canvasShadows, boolean canvasLeftToRight, boolean connectionLabel,
 		boolean connectionTitle, boolean connectionDescription, boolean showGroups, boolean showConsolidated,
 		boolean groupDocumentation, boolean leafDocumentation, ElementStyle... showLeafs) {
+
+	public static final RenderConfig DEFAULT = new RenderConfig(//
+			true, // draws shadows
+			false, // draws top to bottom (PlantUML Standard)
+			true, // writes the label of the connection
+			true, // writes the title of the connection
+			true, // writes the description of a connection
+			true, // Shows groups
+			false, // doesn't consolidate the view.
+			false, // draws the documentation to the group
+			false); // draws the documentation to the leafs
+
 	/**
 	 * returns true if block should be visible
 	 * 

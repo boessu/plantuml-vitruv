@@ -34,7 +34,7 @@ public class Group extends Block {
 		if (normalStyle != null)
 			this.normalStyle = normalStyle;
 		else
-			this.normalStyle = CustomStyle.standardStyle;
+			this.normalStyle = CustomElementStyle.standardStyle;
 		this.highlightStyle = highlightStyle;
 	}
 

@@ -23,4 +23,11 @@ public interface ConnectionType {
 	 *         specified color and boldness.
 	 */
 	String getPlant(Color color, boolean bold);
+
+	/**
+	 * Gets the Connection Type with the default style.
+	 * 
+	 * @return default styled connection.
+	 */
+	ConnectionStyle getDefaultStyle();
 }

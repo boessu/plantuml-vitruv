@@ -22,7 +22,7 @@ import ch.braincell.plantuml.vitruv.style.ElementStyle;
 import ch.braincell.plantuml.vitruv.style.Style;
 
 /**
- * The {@code Canvas} class represents a canvas in the PlantUML Archimate
+ * The {@code Canvas} class represents a canvas in the PlantUML Archimate / Edgy
  * diagramming tool. It manages the creation and arrangement of various diagram
  * elements such as groups, leafs, and connections. The canvas also handles the
  * generation of PlantUML source code based on the added elements and their
@@ -80,8 +80,8 @@ public class Canvas {
 	 * Create a canvas with optional documentation paragraphs. The documentation
 	 * will be displayed as legend.
 	 *
-	 * @param title          Title of the canvas.
-	 * @param documentations paragraphs as documentation on the canvas.
+	 * @param title          Title of the canvas (mandatory)
+	 * @param documentations paragraphs as documentation on the canvas (optional)
 	 */
 	public Canvas(String title, Paragraph... documentations) {
 		this.imports = new HashSet<>();
@@ -122,7 +122,7 @@ public class Canvas {
 	 * Add a paragraph to the documentation of the canvas. The paragraphs will be
 	 * displayed as legend.
 	 *
-	 * @param paragraph the paragraph to add to the documentation
+	 * @param paragraph the paragraph to add to the documentation (mandatory)
 	 */
 	public void addDocumentation(Paragraph paragraph) {
 		if (paragraph != null)
@@ -162,6 +162,22 @@ public class Canvas {
 		return result;
 	}
 
+	/**
+	 * Add a simple styled group for adding leafs. If the group already exists with
+	 * his name, the existing group will be returned (all attributes will be
+	 * ignored, no change on the group).
+	 *
+	 * @param name        the name of the group (mandatory, identification of the
+	 *                    group)
+	 * @param normalStyle the normal style of the group. (optional, takes a standard
+	 *                    style if there is no one)
+	 * @return the new group or existing group if there is already a group with that
+	 *         name.
+	 */
+	public Group addGroup(String name, ElementStyle normalStyle) {
+		return addGroup(name, name, null, normalStyle, normalStyle, null);
+	}
+
 	private void addStyleSheet(ElementStyle style) {
 		Style.StyleSheet styleSheet;
 		if (style != null && (styleSheet = style.getPlantCSS()) != null) {
@@ -180,9 +196,9 @@ public class Canvas {
 	 * @param userID         a specific ID for the user of the renderer which will
 	 *                       be used to identify the leaf in the resulting Plantuml
 	 *                       code, (optional)
-	 * @param style          the style of Leaf (optional).
 	 * @param url            the URL to further documentation for the leaf
 	 *                       (optional)
+	 * @param style          the style of Leaf (optional).
 	 * @param color          the color for the leaf (optional)
 	 * @param highlightColor the highlighted color of the leaf (optional)
 	 * @param parentGroup    the group where the leaf lives (optional)
@@ -190,12 +206,12 @@ public class Canvas {
 	 * @return new leaf or existing leaf if there is already a leaf with the same
 	 *         name.
 	 */
-	public Leaf addLeaf(String name, String userID, ElementStyle style, Block.Link url, Color color,
+	public Leaf addLeaf(String name, String userID, Block.Link url, ElementStyle style, Color color,
 			Color highlightColor, Group parentGroup, Paragraph... documentations) {
 		Leaf result = leafs.get(name);
 		if (result == null) {
 			if (style == null)
-				style = CustomStyle.standardStyle;
+				style = CustomElementStyle.standardStyle;
 			addStyleSheet(style);
 			result = new Leaf(name, userID, style, url, color, highlightColor, checkNull(documentations));
 			addBlock(result, parentGroup);
@@ -207,11 +223,24 @@ public class Canvas {
 	}
 
 	/**
-	 * Create a connection between leafs or groups.
+	 * Create a simple Leaf in a Group if it doesn't exist already.
+	 *
+	 * @param name        the name of the leaf (Identifies the leaf, mandatory).
+	 * @param style       the style of Leaf (optional).
+	 * @param parentGroup the group where the leaf lives (optional)
+	 * @return new leaf or existing leaf if there is already a leaf with the same
+	 *         name.
+	 */
+	public Leaf addLeaf(String name, ElementStyle style, Group parentGroup) {
+		return addLeaf(name, name, null, style, null, null, parentGroup);
+	}
+
+	/**
+	 * Create a connection between leafs or groups with a specific style.
 	 *
 	 * @param sender      the sender leaf or group (mandatory)
 	 * @param receiver    the receiver leaf or group (mandatory)
-	 * @param style       the style of the Connection (optional)
+	 * @param style       the style of the Connection (mandatory)
 	 * @param label       the label of the connection (mandatory)
 	 * @param description an additional description for the connection (optional)
 	 * @param references  additional references to the description (optional)
@@ -225,13 +254,58 @@ public class Canvas {
 	}
 
 	/**
+	 * Create a simple connection between leafs or groups with a specific style.
+	 *
+	 * @param sender   the sender leaf or group (mandatory)
+	 * @param receiver the receiver leaf or group (mandatory)
+	 * @param style    the style of the Connection (mandatory)
+	 * @param label    the label of the connection (mandatory)
+	 * @return the new connection between blocks.
+	 */
+	public Connection addConnection(Block sender, Block receiver, ConnectionStyle style, String label) {
+		return addConnection(sender, receiver, style, label, null);
+	}
+
+	/**
+	 * Create a connection between leafs or groups, using the default style of the
+	 * connection type.
+	 *
+	 * @param sender      the sender leaf or group (mandatory)
+	 * @param receiver    the receiver leaf or group (mandatory)
+	 * @param type        the type of the Connection (mandatory)
+	 * @param label       the label of the connection (mandatory)
+	 * @param description an additional description for the connection (optional)
+	 * @param references  additional references to the description (optional)
+	 * @return the new connection between blocks.
+	 */
+	public Connection addConnection(Block sender, Block receiver, ConnectionType type, String label, String description,
+			Reference... references) {
+		return addConnection(sender, receiver, type.getDefaultStyle(), label, description, references);
+	}
+
+	/**
+	 * Create a simple connection between leafs or groups, using the default style
+	 * of the connection type.
+	 *
+	 * @param sender      the sender leaf or group (mandatory)
+	 * @param receiver    the receiver leaf or group (mandatory)
+	 * @param type        the type of the Connection (mandatory)
+	 * @param label       the label of the connection (mandatory)
+	 * @return the new connection between blocks.
+	 */
+	public Connection addConnection(Block sender, Block receiver, ConnectionType type, String label) {
+		return addConnection(sender, receiver, type.getDefaultStyle(), label, null);
+	}
+
+	/**
 	 * Generates the PlantUML source code for the current state of the canvas.
 	 *
-	 * @param config the configuration of the drawing
-	 * @param focus  the blocks which will be drawn with focus
+	 * @param config the configuration of the drawing (mandatory)
+	 * @param focus  the blocks which will be drawn with focus (optional)
 	 * @return the generated plant source code.
 	 */
 	public String getPlant(RenderConfig config, Set<Block> focus) {
+		focus = focus == null ? Set.of() : focus;
 		StringBuilder result = new StringBuilder("@startuml\n");
 		// PlantUML Imports
 		imports.forEach(importing -> result.append(importing).append('\n'));
@@ -274,10 +348,20 @@ public class Canvas {
 	}
 
 	/**
+	 * Generates the PlantUML source code for the current state of the canvas.
+	 *
+	 * @param config the configuration of the drawing (mandatory)
+	 * @return the generated plant source code.
+	 */
+	public String getPlant(RenderConfig config) {
+		return getPlant(config, null);
+	}
+
+	/**
 	 * Gets the blocks part of PlantUML.
 	 *
 	 * @param config the configuration of the drawing
-	 * @param focus  the elements or blocks in focus of this drawing.
+	 * @param focus  the elements or blocks in focus of this drawing
 	 * @return the root header PlantUML sourcecode.
 	 */
 	private String getRootPlant(RenderConfig config, Set<Block> focus) {
@@ -332,6 +416,13 @@ public class Canvas {
 		return result.toString();
 	}
 
+	/**
+	 * Groups multiple connections between the same pair of blocks into a single
+	 * {@code GroupConnection}.
+	 *
+	 * @param con the connection to consolidate
+	 * @return the resulting group connection
+	 */
 	private GroupConnection addGroupConnection(Connection con) {
 		Block sender = getConsolidatedBlock(con.sender());
 		Block receiver = getConsolidatedBlock(con.receiver());
@@ -347,6 +438,13 @@ public class Canvas {
 		return result;
 	}
 
+	/**
+	 * Returns the parent group of a leaf if it is contained within one; otherwise
+	 * returns the block itself. Used for connection consolidation.
+	 *
+	 * @param block the block to check
+	 * @return the consolidated block (the group or the leaf)
+	 */
 	private Block getConsolidatedBlock(Block block) {
 		if (block instanceof Leaf leaf && (root.get(leaf.name) == null || root.get(leaf.name) instanceof Group)) {
 			return groups.values().stream().filter(g -> g.contains(leaf)).findFirst().get();
@@ -355,6 +453,14 @@ public class Canvas {
 		return block;
 	}
 
+	/**
+	 * Registers a block in the canvas's internal maps and attaches it to its parent
+	 * group if provided.
+	 *
+	 * @param block       the block to add (Leaf or Group)
+	 * @param parentGroup the parent group to attach the block to, or null if it is
+	 *                    root
+	 */
 	private void addBlock(Block block, Group parentGroup) {
 		if (block instanceof Leaf leaf)
 			leafs.put(block.name, leaf);

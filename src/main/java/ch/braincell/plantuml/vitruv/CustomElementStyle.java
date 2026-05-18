@@ -16,15 +16,15 @@ import ch.braincell.plantuml.vitruv.style.Sprite;
  * 
  * @author boessu
  */
-public record CustomStyle(String stereotype, FormStyle formStyle, LineStyle lineStyle, FontStyle fontStyle, Sprite sprite,
+public record CustomElementStyle(String stereotype, FormStyle formStyle, LineStyle lineStyle, FontStyle fontStyle, Sprite sprite,
 		Color backgroundColor, boolean shadow, int wordWrap) implements ElementStyle {
 
 	/**
 	 * A standard style which will be used if there is no style defined.
 	 */
-	public static final CustomStyle standardStyle = new CustomStyle();
+	public static final CustomElementStyle standardStyle = new CustomElementStyle();
 
-	private CustomStyle() {
+	private CustomElementStyle() {
 		// Standard style if no style is defined.
 		this(null, new FormStyle(Style.RECTANGLE, 0), null, null, null, Color.WHITE, false, 0);
 	}

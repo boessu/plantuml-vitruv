@@ -5,13 +5,13 @@ import java.text.MessageFormat;
 import ch.braincell.plantuml.vitruv.style.ElementStyle;
 
 /**
- * Enum representing different types of leaf elements in Archimate modeling.
- * Each leaf type is associated with a specific stereotype and visual
+ * Enum representing different types of elements in Archimate modeling.
+ * Each type is associated with a specific stereotype and visual
  * representation in PlantUML diagrams.
  * 
  * @author boessu
  */
-public enum ArchimateLeafType implements ElementStyle {
+public enum ArchimateElementStyle implements ElementStyle {
 
 	//////////// General, neutral Elements ////////////
 
@@ -27,7 +27,7 @@ public enum ArchimateLeafType implements ElementStyle {
 	 * Represents an 'actor' leaf type in Archimate, with a default color of light
 	 * yellow.
 	 */
-	ACTOR("actor", "#LightYellow", ArchimateLeafType.P_ACTOR),
+	ACTOR("actor", "#LightYellow", ArchimateElementStyle.P_ACTOR),
 	/**
 	 * Represents an 'aggregation' leaf type in Archimate.
 	 */
@@ -275,7 +275,7 @@ public enum ArchimateLeafType implements ElementStyle {
 	 * Represents a 'business actor' leaf type in Archimate, with a specific color
 	 * code and actor format.
 	 */
-	BUSINESS_ACTOR("business-actor", "#BUSINESS", ArchimateLeafType.P_ACTOR),
+	BUSINESS_ACTOR("business-actor", "#BUSINESS", ArchimateElementStyle.P_ACTOR),
 	/**
 	 * Represents a 'business collaboration' leaf type in Archimate, with a specific
 	 * color code.
@@ -580,11 +580,11 @@ public enum ArchimateLeafType implements ElementStyle {
 	private final static int P_WRAP_NAME = 25;
 
 	// Constructors for defining leaf types with varying levels of detail
-	ArchimateLeafType(String stereotype) {
+	ArchimateElementStyle(String stereotype) {
 		this(stereotype, "#White");
 	}
 
-	ArchimateLeafType(String stereotype, String color) {
+	ArchimateElementStyle(String stereotype, String color) {
 		this(stereotype, color, P_ARCHIMATE);
 	}
 
@@ -600,7 +600,7 @@ public enum ArchimateLeafType implements ElementStyle {
 	 *                   {2}: color and line style<br>
 	 *                   {3}: archimate stereotype
 	 */
-	ArchimateLeafType(String stereotype, String color, String plant) {
+	ArchimateElementStyle(String stereotype, String color, String plant) {
 		this.stereotype = stereotype;
 		this.color = color;
 		this.plant = plant;
@@ -616,7 +616,7 @@ public enum ArchimateLeafType implements ElementStyle {
 	public static ElementStyle getEnum(String name) {
 		if (name == null)
 			return MEANING;
-		for (ArchimateLeafType value : ArchimateLeafType.values()) {
+		for (ArchimateElementStyle value : ArchimateElementStyle.values()) {
 			if (name.toLowerCase().equals(value.stereotype)) {
 				return value;
 			}

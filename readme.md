@@ -1,5 +1,6 @@
 # PlantUML Vitruv
 
+
 **PlantUML Vitruv** is a Java library designed to provide a structured, object-oriented domain model for generating PlantUML diagrams. It eliminates the need for manual string concatenation by providing a type-safe API for building complex architecture diagrams, with specific support for **ArchiMate** and **Edgy** modeling styles. It is also able to generate consolidated views if there are alot of leafs and dependencies between leafs in groups. Try it out. ;-)
 
 ## 📦 Project Structure
@@ -36,3 +37,39 @@ This project is built with **Maven**.
 * **Group ID**: `ch.braincell`
 * **Artifact ID**: `plantuml.vitruv`
 * **Version**: `1.0.0`
+
+# Installation
+
+[![Maven Central](https://img.shields.io/maven-central/v/ch.braincell/plantuml.vitruv.svg?label=Maven%20Central)](https://central.sonatype.com/artifact/ch.braincell/plantuml.vitruv)
+
+This library is published on [Maven Central](https://central.sonatype.com/artifact/ch.braincell/plantuml.vitruv). You can include it in your project using any of the build tools listed below.
+
+## Build Tool Dependency
+
+### Maven
+
+Add the following dependency to your `pom.xml`:
+
+```xml
+<dependency>
+    <groupId>ch.braincell</groupId>
+    <artifactId>plantuml.vitruv</artifactId>
+    <version>1.0.0</version>
+</dependency>
+```
+
+### Gradle (Groovy)
+
+Add this line to your `build.gradle`:
+
+```groovy
+implementation 'ch.braincell:plantuml.vitruv:1.0.0'
+```
+
+### Gradle (Kotlin)
+
+Add this line to your `build.gradle.kts`:
+
+```kotlin
+implementation("ch.braincell:plantuml.vitruv:1.0.0")
+```
